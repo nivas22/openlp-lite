@@ -20,7 +20,7 @@ public class OpenlpLiteActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OpenlpLiteActivity.this, ListSongsActivity.class);
+                Intent intent = new Intent(OpenlpLiteActivity.this, ListViewSongsActivity.class);
                 startActivity(intent);
             }
         });

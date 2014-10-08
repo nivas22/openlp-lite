@@ -32,6 +32,11 @@
             android:label="List of Songs"
             android:name=".ListSongsActivity">
         </activity>
+
+        <activity
+            android:label="List of Songs"
+            android:name=".ListViewSongsActivity">
+        </activity>
     </application>
 
 </manifest>
