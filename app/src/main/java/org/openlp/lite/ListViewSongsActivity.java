@@ -11,10 +11,8 @@ import org.openlp.lite.dao.SongDao;
 import org.openlp.lite.domain.Author;
 import org.openlp.lite.domain.Song;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Madasamy on 8/10/2014.
@@ -37,7 +35,7 @@ public class ListViewSongsActivity extends ListActivity
         //externalSongDao.open();
 
         try {
-            externalSongDao.createDatabase();
+            externalSongDao.copyDatabase();
         } catch (Exception ex) {
             Log.w(ListViewSongsActivity.class.getName(), "Error occurred while creating database", ex);
         }

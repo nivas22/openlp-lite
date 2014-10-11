@@ -27,6 +27,11 @@ public class ExternalSongDao
         dbHelper = new ExternalDatabaseHelper(context);
     }
 
+    public void copyDatabase() throws Exception
+    {
+        dbHelper.copyDataBase();
+    }
+
     public void open()
     {
         database = dbHelper.openDataBase();
@@ -37,31 +42,11 @@ public class ExternalSongDao
         dbHelper.close();
     }
 
-    public void createDatabase() throws Exception
-    {
-        dbHelper.copyDataBase();
-    }
-
     public List<Author> findAll()
     {
         List<Author> songs = new ArrayList<Author>();
-        ArrayList<String> arrTblNames = new ArrayList<String>();
-        Cursor c = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-
-        if (c.moveToFirst()) {
-            while (!c.isAfterLast()) {
-                arrTblNames.add(c.getString(c.getColumnIndex("name")));
-                c.moveToNext();
-            }
-        }
-        Log.w(this.getClass().getName(), "No.of table: " + arrTblNames.size());
-        for (String table : arrTblNames) {
-            Log.w(this.getClass().getName(), "Table name: " + table);
-        }
-        c.close();
         Cursor cursor = database.query(ExternalDatabaseHelper.TABLE_NAME_AUTHOR,
                 allColumns, null, null, null, null, null);
-
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Author song = cursorToSong(cursor);
