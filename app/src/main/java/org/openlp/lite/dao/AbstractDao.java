@@ -8,7 +8,8 @@ import org.openlp.lite.helper.ExternalDatabaseHelper;
 import java.io.IOException;
 
 /**
- * Created by Madasamy on 11/10/2014.
+ * @Author : Madasamy
+ * @Version : 0.1
  */
 public class AbstractDao
 {

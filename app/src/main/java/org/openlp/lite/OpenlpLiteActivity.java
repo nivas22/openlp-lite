@@ -10,26 +10,35 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class OpenlpLiteActivity extends ActionBarActivity {
+/**
+ * @Author : Madasamy
+ * @Version : 0.1
+ */
+public class OpenlpLiteActivity extends ActionBarActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.openlp_lite_activity);
-        Button button =(Button)findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent intent = new Intent(OpenlpLiteActivity.this, ListViewSongsActivity.class);
                 startActivity(intent);
             }
         });
-       //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.my, menu);
 
@@ -40,7 +49,8 @@ public class OpenlpLiteActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -53,10 +63,10 @@ public class OpenlpLiteActivity extends ActionBarActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_search:
-          //      openSearch();
+                //      openSearch();
                 return true;
             case R.id.action_settings:
-            //    openSettings();
+                //    openSettings();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
