@@ -21,7 +21,7 @@ import java.io.OutputStream;
  * @Author : Madasamy
  * @Version : 0.1
  */
-public class ExternalDatabaseHelper extends SQLiteOpenHelper
+public class ExternalDatabasehelper extends SQLiteOpenHelper
 {
     public static String DB_PATH = "";
 
@@ -47,7 +47,7 @@ public class ExternalDatabaseHelper extends SQLiteOpenHelper
      *
      * @param context
      */
-    public ExternalDatabaseHelper(Context context)
+    public ExternalDatabasehelper(Context context)
     {
         super(context, DB_NAME, null, DATABASE_VERSION);
         this.myContext = context;
