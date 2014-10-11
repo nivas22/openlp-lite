@@ -1,4 +1,4 @@
 /build
-*.iml
+app.iml
 *.ipr
 *.iws
