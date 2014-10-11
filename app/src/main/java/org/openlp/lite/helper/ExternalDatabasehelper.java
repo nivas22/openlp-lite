@@ -49,7 +49,7 @@ public class ExternalDatabaseHelper extends SQLiteOpenHelper
      */
     public ExternalDatabaseHelper(Context context)
     {
-        super(context, DB_NAME, null, 3);
+        super(context, DB_NAME, null, DATABASE_VERSION);
         this.myContext = context;
         ///data/data/YOUR_PACKAGE/databases/"
         this.DB_PATH = "/data/data/" + context.getApplicationContext().getPackageName() + "/databases/";
