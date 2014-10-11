@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ListViewSongsActivity extends ListActivity
 {
-    private SongDao datasource;
+    private SongDao songDao;
     private ExternalSongDao externalSongDao;
 
     @Override
@@ -28,12 +28,11 @@ public class ListViewSongsActivity extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview_song);
 
-        datasource = new SongDao(this);
-        datasource.open();
+        songDao = new SongDao(this);
+        songDao.open();
 
         externalSongDao = new ExternalSongDao(this);
         //externalSongDao.open();
-
         try {
             externalSongDao.copyDatabase();
         } catch (Exception ex) {
@@ -55,7 +54,7 @@ public class ListViewSongsActivity extends ListActivity
 
     private void loadSongs()
     {
-        List<Song> values = datasource.findAll();
+        List<Song> values = songDao.findAll();
         ArrayAdapter<Song> adapter = new ArrayAdapter<Song>(this,
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
@@ -72,7 +71,7 @@ public class ListViewSongsActivity extends ListActivity
         songList.add("foo3");
         songList.add("foo4");
         for (String songName : songList) {
-            song = datasource.create(songName);
+            song = songDao.create(songName);
             adapter.add(song);
             adapter.notifyDataSetChanged();
         }
@@ -108,7 +107,7 @@ public class ListViewSongsActivity extends ListActivity
     @Override
     protected void onResume()
     {
-        datasource.open();
+        songDao.open();
         externalSongDao.open();
         super.onResume();
     }
@@ -116,7 +115,7 @@ public class ListViewSongsActivity extends ListActivity
     @Override
     protected void onPause()
     {
-        datasource.close();
+        songDao.close();
         externalSongDao.close();
         super.onPause();
     }
