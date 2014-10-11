@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
-import org.openlp.lite.dao.ExternalSongDao;
+import org.openlp.lite.dao.AuthorDao;
 import org.openlp.lite.dao.SongDao;
 import org.openlp.lite.domain.Author;
 import org.openlp.lite.domain.Song;
@@ -19,8 +19,7 @@ import java.util.List;
  */
 public class ListViewSongsActivity extends ListActivity
 {
-    private SongDao songDao;
-    private ExternalSongDao externalSongDao;
+    private AuthorDao authorDao;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -28,52 +27,22 @@ public class ListViewSongsActivity extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview_song);
 
-        songDao = new SongDao(this);
-        songDao.open();
-
-        externalSongDao = new ExternalSongDao(this);
+        authorDao = new AuthorDao(this);
         try {
-            externalSongDao.copyDatabase();
+            authorDao.copyDatabase();
         } catch (Exception ex) {
             Log.w(ListViewSongsActivity.class.getName(), "Error occurred while creating database", ex);
         }
-        externalSongDao.open();
+        authorDao.open();
         loadExternalSongs();
-        //loadSongs();
-        // createSongs();
     }
 
     private void loadExternalSongs()
     {
-        List<Author> values = externalSongDao.findAll();
+        List<Author> values = authorDao.findAll();
         ArrayAdapter<Author> adapter = new ArrayAdapter<Author>(this,
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
-    }
-
-    private void loadSongs()
-    {
-        List<Song> values = songDao.findAll();
-        ArrayAdapter<Song> adapter = new ArrayAdapter<Song>(this,
-                android.R.layout.simple_list_item_1, values);
-        setListAdapter(adapter);
-    }
-
-    private void createSongs()
-    {
-        @SuppressWarnings("unchecked")
-        ArrayAdapter<Song> adapter = (ArrayAdapter<Song>) getListAdapter();
-        Song song = null;
-        List<String> songList = new ArrayList<String>();
-        songList.add("foo1");
-        songList.add("foo2");
-        songList.add("foo3");
-        songList.add("foo4");
-        for (String songName : songList) {
-            song = songDao.create(songName);
-            adapter.add(song);
-            adapter.notifyDataSetChanged();
-        }
     }
 
     // Will be called via the onClick attribute
@@ -106,16 +75,14 @@ public class ListViewSongsActivity extends ListActivity
     @Override
     protected void onResume()
     {
-        songDao.open();
-        externalSongDao.open();
+        authorDao.open();
         super.onResume();
     }
 
     @Override
     protected void onPause()
     {
-        songDao.close();
-        externalSongDao.close();
+        authorDao.close();
         super.onPause();
     }
 }

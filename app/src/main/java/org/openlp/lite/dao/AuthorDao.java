@@ -16,37 +16,20 @@ import java.util.List;
 /**
  * Created by Madasamy on 10/10/2014.
  */
-public class ExternalSongDao
+public class AuthorDao extends AbstractDao
 {
-    private SQLiteDatabase database;
-    private ExternalDatabaseHelper dbHelper;
     private String[] allColumns = {ExternalDatabaseHelper.COLUMN_ID, ExternalDatabaseHelper.COLUMN_FIRST_NAME,
             ExternalDatabaseHelper.COLUMN_LAST_NAME, ExternalDatabaseHelper.COLUMN_DISPLAY_NAME};
 
-    public ExternalSongDao(Context context)
+    public AuthorDao(Context context)
     {
-        dbHelper = new ExternalDatabaseHelper(context);
-    }
-
-    public void copyDatabase() throws IOException
-    {
-        dbHelper.copyDataBase();
-    }
-
-    public void open()
-    {
-        database = dbHelper.openDataBase();
-    }
-
-    public void close()
-    {
-        dbHelper.close();
+        super(context);
     }
 
     public List<Author> findAll()
     {
         List<Author> songs = new ArrayList<Author>();
-        Cursor cursor = database.query(ExternalDatabaseHelper.TABLE_NAME_AUTHOR,
+        Cursor cursor = getDatabase().query(ExternalDatabaseHelper.TABLE_NAME_AUTHOR,
                 allColumns, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
