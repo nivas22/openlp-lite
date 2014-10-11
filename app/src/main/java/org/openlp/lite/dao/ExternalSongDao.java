@@ -9,6 +9,7 @@ import org.openlp.lite.domain.Author;
 import org.openlp.lite.domain.Song;
 import org.openlp.lite.helper.ExternalDatabaseHelper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class ExternalSongDao
         dbHelper = new ExternalDatabaseHelper(context);
     }
 
-    public void copyDatabase() throws Exception
+    public void copyDatabase() throws IOException
     {
         dbHelper.copyDataBase();
     }

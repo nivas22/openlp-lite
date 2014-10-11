@@ -32,7 +32,6 @@ public class ListViewSongsActivity extends ListActivity
         songDao.open();
 
         externalSongDao = new ExternalSongDao(this);
-        //externalSongDao.open();
         try {
             externalSongDao.copyDatabase();
         } catch (Exception ex) {
