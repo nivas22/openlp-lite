@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import org.openlp.lite.domain.Author;
-import org.openlp.lite.helper.ExternalDatabasehelper;
+import org.openlp.lite.helper.ExternalDatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class AuthorDao extends AbstractDao
 {
-    private String[] allColumns = {ExternalDatabasehelper.COLUMN_ID, ExternalDatabasehelper.COLUMN_FIRST_NAME,
-            ExternalDatabasehelper.COLUMN_LAST_NAME, ExternalDatabasehelper.COLUMN_DISPLAY_NAME};
+    private String[] allColumns = {ExternalDatabaseHelper.COLUMN_ID, ExternalDatabaseHelper.COLUMN_FIRST_NAME,
+            ExternalDatabaseHelper.COLUMN_LAST_NAME, ExternalDatabaseHelper.COLUMN_DISPLAY_NAME};
 
     public AuthorDao(Context context)
     {
@@ -26,7 +26,7 @@ public class AuthorDao extends AbstractDao
     public List<Author> findAll()
     {
         List<Author> songs = new ArrayList<Author>();
-        Cursor cursor = getDatabase().query(ExternalDatabasehelper.TABLE_NAME_AUTHOR,
+        Cursor cursor = getDatabase().query(ExternalDatabaseHelper.TABLE_NAME_AUTHOR,
                 allColumns, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

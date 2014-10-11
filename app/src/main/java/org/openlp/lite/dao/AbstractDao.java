@@ -3,7 +3,7 @@ package org.openlp.lite.dao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.openlp.lite.helper.ExternalDatabasehelper;
+import org.openlp.lite.helper.ExternalDatabaseHelper;
 
 import java.io.IOException;
 
@@ -14,12 +14,12 @@ import java.io.IOException;
 public class AbstractDao
 {
     private SQLiteDatabase database;
-    private ExternalDatabasehelper databaseHelper;
+    private ExternalDatabaseHelper databaseHelper;
     private Context context;
 
     public AbstractDao(Context context)
     {
-        databaseHelper = new ExternalDatabasehelper(context);
+        databaseHelper = new ExternalDatabaseHelper(context);
     }
 
     public void copyDatabase() throws IOException
