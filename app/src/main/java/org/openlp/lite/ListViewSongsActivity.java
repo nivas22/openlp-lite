@@ -2,10 +2,13 @@ package org.openlp.lite;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+import org.openlp.lite.dao.ExternalSongDao;
 import org.openlp.lite.dao.SongDao;
+import org.openlp.lite.domain.Author;
 import org.openlp.lite.domain.Song;
 
 import java.lang.reflect.Array;
@@ -19,6 +22,7 @@ import java.util.Random;
 public class ListViewSongsActivity extends ListActivity
 {
     private SongDao datasource;
+    private ExternalSongDao externalSongDao;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -29,8 +33,26 @@ public class ListViewSongsActivity extends ListActivity
         datasource = new SongDao(this);
         datasource.open();
 
-        loadSongs();
-        createSongs();
+        externalSongDao = new ExternalSongDao(this);
+        //externalSongDao.open();
+
+        try {
+            externalSongDao.createDatabase();
+        } catch (Exception ex) {
+            Log.w(ListViewSongsActivity.class.getName(), "Error occurred while creating database", ex);
+        }
+        externalSongDao.open();
+        loadExternalSongs();
+        //loadSongs();
+        // createSongs();
+    }
+
+    private void loadExternalSongs()
+    {
+        List<Author> values = externalSongDao.findAll();
+        ArrayAdapter<Author> adapter = new ArrayAdapter<Author>(this,
+                android.R.layout.simple_list_item_1, values);
+        setListAdapter(adapter);
     }
 
     private void loadSongs()
@@ -89,6 +111,7 @@ public class ListViewSongsActivity extends ListActivity
     protected void onResume()
     {
         datasource.open();
+        externalSongDao.open();
         super.onResume();
     }
 
@@ -96,6 +119,7 @@ public class ListViewSongsActivity extends ListActivity
     protected void onPause()
     {
         datasource.close();
+        externalSongDao.close();
         super.onPause();
     }
 }
