@@ -1,13 +1,10 @@
 package org.openlp.lite.dao;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 
+import org.openlp.lite.domain.Author;
 import org.openlp.lite.domain.Song;
-import org.openlp.lite.helper.OpenlpliteHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,74 +13,37 @@ import java.util.List;
  * @Author : Madasamy
  * @Version : 0.1
  */
-public class SongDao
+public class SongDao extends AbstractDao
 {
-    private SQLiteDatabase database;
-    private OpenlpliteHelper dbHelper;
-    private String[] allColumns = {OpenlpliteHelper.COLUMN_ID,
-            OpenlpliteHelper.COLUMN_SONG};
+    public static final String TABLE_NAME_AUTHOR = "songs";
+    public static final String[] allColumns = {"id", "song_book_id", "title", "alternate_title",
+            "lyrics", "verse_order", "copyright", "comments", "ccli_number", "song_number", "theme_name",
+            "search_title", "search_lyrics", "create_date", "last_modified", "temporary"};
 
     public SongDao(Context context)
     {
-        dbHelper = new OpenlpliteHelper(context);
+        super(context);
     }
 
-    public void open() throws SQLException
-    {
-        database = dbHelper.getWritableDatabase();
-    }
-
-    public void close()
-    {
-        dbHelper.close();
-    }
-
-    public Song create(String song)
-    {
-        ContentValues values = new ContentValues();
-        values.put(OpenlpliteHelper.COLUMN_SONG, song);
-        long insertId = database.insert(OpenlpliteHelper.TABLE_SONGS, null,
-                values);
-        Cursor cursor = database.query(OpenlpliteHelper.TABLE_SONGS,
-                allColumns, OpenlpliteHelper.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
-        cursor.moveToFirst();
-        Song newSong = cursorToSong(cursor);
-        cursor.close();
-        return newSong;
-    }
-
-    public void delete(Song song)
-    {
-        long id = song.getId();
-        System.out.println("Comment deleted with id: " + id);
-        database.delete(OpenlpliteHelper.TABLE_SONGS, OpenlpliteHelper.COLUMN_ID
-                + " = " + id, null);
-    }
-
-    public List<Song> findAll()
+    public List<Song> findTitles()
     {
         List<Song> songs = new ArrayList<Song>();
-
-        Cursor cursor = database.query(OpenlpliteHelper.TABLE_SONGS,
-                allColumns, null, null, null, null, null);
-
+        Cursor cursor = getDatabase().query(TABLE_NAME_AUTHOR,
+                new String[]{"title"}, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Song song = cursorToSong(cursor);
             songs.add(song);
             cursor.moveToNext();
         }
-        // make sure to close the cursor
         cursor.close();
         return songs;
     }
 
     private Song cursorToSong(Cursor cursor)
     {
-        Song comment = new Song();
-        comment.setId(cursor.getLong(0));
-        comment.setComment(cursor.getString(1));
-        return comment;
+        Song song = new Song();
+        song.setTitle(cursor.getString(0));
+        return song;
     }
 }

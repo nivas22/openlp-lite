@@ -8,8 +8,11 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light">
 
+        <!--<meta-data android:name="AA_DB_NAME" android:value="songs.sqlite" />-->
+        <!--<meta-data android:name="AA_DB_VERSION" android:value="3"/>-->
+
         <activity
-            android:name="org.openlp.lite.ListViewSongsActivity"
+            android:name=".activity.ListViewSongsActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,9 +22,9 @@
         </activity>
 
         <activity
-            android:name="org.openlp.lite.DisplayMessageActivity"
+            android:name=".activity.DisplayMessageActivity"
             android:label="@string/title_activity_display_message"
-            android:parentActivityName="org.openlp.lite.OpenlpLiteActivity" >
+            android:parentActivityName=".activity.OpenlpLiteActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -30,7 +33,7 @@
 
         <activity
             android:label="List of Songs"
-            android:name=".ListSongsActivity">
+            android:name=".activity.ListSongsActivity">
         </activity>
 
     <!---    <activity

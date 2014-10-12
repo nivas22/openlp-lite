@@ -1,17 +1,13 @@
 package org.openlp.lite.helper;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import org.apache.maven.shared.utils.io.FileUtils;
 import org.apache.maven.shared.utils.io.IOUtil;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,11 +24,7 @@ public class ExternalDatabaseHelper extends SQLiteOpenHelper
     // Data Base Version.
     private static final int DATABASE_VERSION = 3;
     // Table Names of Data Base.
-    public static final String TABLE_NAME_AUTHOR = "authors";
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_FIRST_NAME = "first_name";
-    public static final String COLUMN_LAST_NAME = "last_name";
-    public static final String COLUMN_DISPLAY_NAME = "display_name";
+
 
     public Context context;
     static SQLiteDatabase sqliteDataBase;
@@ -164,6 +156,4 @@ public class ExternalDatabaseHelper extends SQLiteOpenHelper
     // Add your public helper methods to access and get content from the database.
     // You could return cursors by doing "return myDataBase.query(....)" so it'd be easy
     // to you to create adapters for your views.
-
-
 }
