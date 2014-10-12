@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 20
     buildToolsVersion "20.0.0"
-
     defaultConfig {
-        applicationId "org.openlp.lite"
-        minSdkVersion 14
+        applicationId "org.openlp_lite"
+        minSdkVersion 15
+
         targetSdkVersion 20
         versionCode 1
         versionName "1.0"
@@ -20,9 +20,13 @@ android {
 }
 
 dependencies {
+
 //    compile files('libs/android.jar')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:20.0.0"
     compile 'org.apache.maven.shared:maven-shared-utils:0.6'
    // compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
 }

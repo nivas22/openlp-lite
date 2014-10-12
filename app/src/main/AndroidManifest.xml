@@ -4,42 +4,24 @@
 
     <application
         android:allowBackup="true"
+        android:label="OpenLP-Lite"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light">
-
-        <!--<meta-data android:name="AA_DB_NAME" android:value="songs.sqlite" />-->
-        <!--<meta-data android:name="AA_DB_VERSION" android:value="3"/>-->
-
+        android:theme="@style/AppTheme" >
         <activity
-            android:name=".activity.ListViewSongsActivity"
-            android:label="@string/app_name" >
+            android:name=".activity.SplashScreenActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".activity.DisplayMessageActivity"
-            android:label="@string/title_activity_display_message"
-            android:parentActivityName=".activity.OpenlpLiteActivity" >
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.myfirstapp.MainActivity" />
-        </activity>
-
-        <activity
-            android:label="List of Songs"
-            android:name=".activity.ListSongsActivity">
-        </activity>
-
-    <!---    <activity
-            android:label="List of Songs"
-            android:name=".ListViewSongsActivity">
-        </activity> -->
+        <activity android:name=".activity.SongsListActivity"></activity>
+        <activity android:name=".activity.Lyrics_Show"></activity>
+        <activity android:name=".activity.SongsActivity"></activity>
+        <activity android:name=".activity.UserSettingActivity"></activity>
+        <activity android:name=".activity.SettingsActivity"></activity>
+        <activity android:name=".service.FilePickerService"></activity>
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>
