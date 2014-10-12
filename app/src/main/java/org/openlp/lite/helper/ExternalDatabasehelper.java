@@ -21,10 +21,8 @@ public class ExternalDatabaseHelper extends SQLiteOpenHelper
 {
     public static String DB_PATH = "";
     private static final int DATABASE_VERSION = 3;
-    public Context context;
-    static SQLiteDatabase sqliteDataBase;
     public static String DB_NAME = "songs.sqlite";
-    private SQLiteDatabase myDataBase;
+    private SQLiteDatabase database;
     private final Context myContext;
 
     /**
@@ -115,22 +113,22 @@ public class ExternalDatabaseHelper extends SQLiteOpenHelper
     {
         //Open the database
         String myPath = DB_PATH + DB_NAME;
-        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-        return myDataBase;
+        database = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+        return database;
     }
 
     @Override
     public synchronized void close()
     {
-        if (myDataBase != null)
-            myDataBase.close();
+        if (database != null)
+            database.close();
 
         super.close();
     }
 
     public SQLiteDatabase getDatabase()
     {
-        return myDataBase;
+        return database;
     }
 
     @Override
