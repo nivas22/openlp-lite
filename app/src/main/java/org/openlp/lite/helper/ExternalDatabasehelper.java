@@ -20,12 +20,9 @@ import java.io.OutputStream;
 public class ExternalDatabaseHelper extends SQLiteOpenHelper
 {
     public static String DB_PATH = "";
-    // Data Base Version.
     private static final int DATABASE_VERSION = 3;
-    // Table Names of Data Base.
     public Context context;
     static SQLiteDatabase sqliteDataBase;
-    //The Android's default system path of your application database.
     public static String DB_NAME = "songs.sqlite";
     private SQLiteDatabase myDataBase;
     private final Context myContext;
@@ -40,7 +37,6 @@ public class ExternalDatabaseHelper extends SQLiteOpenHelper
     {
         super(context, DB_NAME, null, DATABASE_VERSION);
         this.myContext = context;
-        ///data/data/YOUR_PACKAGE/databases/"
         this.DB_PATH = "/data/data/" + context.getApplicationContext().getPackageName() + "/databases/";
     }
 
@@ -102,7 +98,6 @@ public class ExternalDatabaseHelper extends SQLiteOpenHelper
         OutputStream outputStream = null;
         try {
             inputStream = myContext.getAssets().open(DB_NAME);
-            // Path to the just created empty db
             String outFileName = DB_PATH + DB_NAME;
             outputStream = new FileOutputStream(outFileName);
             IOUtil.copy(inputStream, outputStream);
