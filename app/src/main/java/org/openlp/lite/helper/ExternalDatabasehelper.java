@@ -23,7 +23,7 @@ public class ExternalDatabaseHelper extends SQLiteOpenHelper
     private static final int DATABASE_VERSION = 3;
     public static String DB_NAME = "songs.sqlite";
     private SQLiteDatabase database;
-    private final Context myContext;
+    private final Context context;
 
     /**
      * Constructor
@@ -34,7 +34,7 @@ public class ExternalDatabaseHelper extends SQLiteOpenHelper
     public ExternalDatabaseHelper(Context context)
     {
         super(context, DB_NAME, null, DATABASE_VERSION);
-        this.myContext = context;
+        this.context = context;
         this.DB_PATH = "/data/data/" + context.getApplicationContext().getPackageName() + "/databases/";
     }
 
@@ -95,7 +95,7 @@ public class ExternalDatabaseHelper extends SQLiteOpenHelper
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
-            inputStream = myContext.getAssets().open(DB_NAME);
+            inputStream = context.getAssets().open(DB_NAME);
             String outFileName = DB_PATH + DB_NAME;
             outputStream = new FileOutputStream(outFileName);
             IOUtil.copy(inputStream, outputStream);
