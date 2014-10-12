@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 
 import org.openlp.lite.domain.Author;
-import org.openlp.lite.helper.ExternalDatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;

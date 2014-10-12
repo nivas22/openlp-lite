@@ -20,12 +20,9 @@ import java.io.OutputStream;
 public class ExternalDatabaseHelper extends SQLiteOpenHelper
 {
     public static String DB_PATH = "";
-
     // Data Base Version.
     private static final int DATABASE_VERSION = 3;
     // Table Names of Data Base.
-
-
     public Context context;
     static SQLiteDatabase sqliteDataBase;
     //The Android's default system path of your application database.
