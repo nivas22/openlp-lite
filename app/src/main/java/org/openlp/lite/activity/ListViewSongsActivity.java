@@ -29,15 +29,15 @@ public class ListViewSongsActivity extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview_song);
 
-        authorDao = new AuthorDao(this);
-        songDao = new SongDao(this);
-        try {
-            songDao.copyDatabase();
-        } catch (Exception ex) {
-            Log.w(ListViewSongsActivity.class.getName(), "Error occurred while creating database", ex);
-        }
-        songDao.open();
-        loadSongs();
+//        authorDao = new AuthorDao(this);
+//        songDao = new SongDao(this);
+//        try {
+//            songDao.copyDatabase();
+//        } catch (Exception ex) {
+//            Log.w(ListViewSongsActivity.class.getName(), "Error occurred while creating database", ex);
+//        }
+//        songDao.open();
+//        loadSongs();
         // loadExternalAuthors();
     }
 

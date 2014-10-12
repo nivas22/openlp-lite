@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,12 +16,20 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import org.openlp.lite.R;
+import org.openlp.lite.dao.AuthorDao;
+import org.openlp.lite.dao.SongDao;
+import org.openlp.lite.domain.Song;
+
+import java.util.List;
 
 
 public class SongsListActivity extends Activity {
 
     ListView list_view;
     ArrayAdapter<String> myAdapter;
+
+    private SongDao songDao;
+    List<Song> songs;
     String[] dataArray = new String[] {"India","Australia","South Africa", "Pakistan", "Srilanka", "Nepal", "Japan"};
 
     @Override
@@ -28,9 +37,17 @@ public class SongsListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.songs_list_page);
         list_view = (ListView) findViewById(R.id.list_view);
-        myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataArray);
-        list_view.setAdapter(myAdapter);
-        list_view.setTextFilterEnabled(true);
+        songDao = new SongDao(this);
+        try {
+            songDao.copyDatabase();
+        } catch (Exception ex) {
+            Log.w(this.getClass().getName(), "Error occurred while creating database", ex);
+        }
+        songDao.open();
+        loadSongs();
+        //myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataArray);
+        //list_view.setAdapter(myAdapter);
+        //list_view.setTextFilterEnabled(true);
 
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -47,6 +64,13 @@ public class SongsListActivity extends Activity {
         });
 
 
+    }
+
+    private void loadSongs() {
+        List<Song> songs = songDao.findTitles();
+        ArrayAdapter<Song> adapter = new ArrayAdapter<Song>(this,
+                android.R.layout.simple_list_item_1, songs);
+        list_view.setAdapter(adapter);
     }
 
     @Override

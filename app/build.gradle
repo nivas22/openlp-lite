@@ -4,7 +4,7 @@ android {
     compileSdkVersion 20
     buildToolsVersion "20.0.0"
     defaultConfig {
-        applicationId "org.openlp_lite"
+        applicationId "org.openlp.lite"
         minSdkVersion 15
 
         targetSdkVersion 20
