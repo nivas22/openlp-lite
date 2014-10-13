@@ -24,7 +24,7 @@ public class AbstractDao
 
     public void copyDatabase() throws IOException
     {
-        databaseHelper.copyDataBase();
+        databaseHelper.createDataBase();
     }
 
     public void open()

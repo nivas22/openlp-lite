@@ -97,11 +97,15 @@ public class DatabaseHelper extends SQLiteOpenHelper
         try {
             inputStream = context.getAssets().open(DB_NAME);
             String outFileName = DB_PATH + DB_NAME;
+            Log.i(this.getClass().getName(), "Db path: "+ outFileName);
+            Log.i(this.getClass().getName(), "InputStream : "+ inputStream);
             outputStream = new FileOutputStream(outFileName);
+
+            Log.i(this.getClass().getName(), "Output stream: "+ outputStream);
             IOUtil.copy(inputStream, outputStream);
             Log.i(this.getClass().getName(), "Copied successfully");
         } catch (Exception ex) {
-            Log.e(this.getClass().getName(), "Error occurred while copying database" + ex);
+            Log.e(this.getClass().getName(), "Error occurred while copying database " + ex);
         } finally {
             outputStream.flush();
             outputStream.close();
