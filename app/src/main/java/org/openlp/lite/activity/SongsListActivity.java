@@ -30,7 +30,8 @@ public class SongsListActivity extends Activity {
 
     private SongDao songDao;
     List<Song> songs;
-    String[] dataArray = new String[] {"India","Australia","South Africa", "Pakistan", "Srilanka", "Nepal", "Japan"};
+    ArrayAdapter<Song> adapter;
+    String[] dataArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +46,11 @@ public class SongsListActivity extends Activity {
         }
         songDao.open();
         loadSongs();
-        //myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataArray);
-        //list_view.setAdapter(myAdapter);
-        //list_view.setTextFilterEnabled(true);
+        dataArray=new String[songs.size()];
+        for(int i=0; i<songs.size();i++)
+        {
+            dataArray[i]=songs.get(i).toString();
+        }
 
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -67,8 +70,8 @@ public class SongsListActivity extends Activity {
     }
 
     private void loadSongs() {
-        List<Song> songs = songDao.findTitles();
-        ArrayAdapter<Song> adapter = new ArrayAdapter<Song>(this,
+        songs = songDao.findTitles();
+        adapter = new ArrayAdapter<Song>(this,
                 android.R.layout.simple_list_item_1, songs);
         list_view.setAdapter(adapter);
     }
@@ -86,13 +89,13 @@ public class SongsListActivity extends Activity {
             @Override
             public boolean onQueryTextChange(String newText)
             {
-                myAdapter.getFilter().filter(newText);
+                adapter.getFilter().filter(newText);
                 return true;
             }
             @Override
             public boolean onQueryTextSubmit(String query)
             {
-                myAdapter.getFilter().filter(query);
+                adapter.getFilter().filter(query);
                 return true;
             }
         };

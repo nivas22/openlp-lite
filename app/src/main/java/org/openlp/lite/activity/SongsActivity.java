@@ -37,7 +37,7 @@ public class SongsActivity extends Activity {
         System.out.print("Position"+position);
         Log.d("Pos",Integer.toString(position));
         textView = (TextView) findViewById(R.id.data);
-        textView.setText(dataArray[1]);
+        textView.setText(dataArray[position]);
 
         //textView.setText("hi...");
 
