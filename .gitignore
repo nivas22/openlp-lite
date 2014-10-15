@@ -48,3 +48,4 @@ app.iml
 **/*.iml
 .idea/*.xml
 .idea/**/*.xml
+.idea/
