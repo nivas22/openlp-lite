@@ -16,7 +16,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import org.openlp.lite.R;
-import org.openlp.lite.dao.AuthorDao;
 import org.openlp.lite.dao.SongDao;
 import org.openlp.lite.domain.Song;
 
@@ -36,7 +35,7 @@ public class SongsListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.songs_list_page);
+        setContentView(R.layout.songs_list_activity);
         list_view = (ListView) findViewById(R.id.list_view);
         songDao = new SongDao(this);
         try {
@@ -79,7 +78,7 @@ public class SongsListActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(R.menu.default_action_bar_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
