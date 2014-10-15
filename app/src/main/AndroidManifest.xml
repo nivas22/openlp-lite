@@ -16,7 +16,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SongsListActivity"></activity>
-        <activity android:name=".activity.Lyrics_Show"></activity>
         <activity android:name=".activity.SongsActivity"></activity>
         <activity android:name=".activity.UserSettingActivity"></activity>
         <activity android:name=".activity.SettingsActivity"></activity>

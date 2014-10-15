@@ -30,7 +30,7 @@ public class SongsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tabactivity);
+        setContentView(R.layout.tab_listener);
         Intent intent = getIntent();
         dataArray = intent.getStringArrayExtra("data");
         int position = intent.getExtras().getInt("position");
@@ -71,7 +71,7 @@ public class SongsActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(R.menu.default_action_bar_menu, menu);
         return true;
     }
 }
