@@ -38,3 +38,13 @@ proguard/
 .DS_Store
 /build
 
+
+
+app.iml
+*.ipr
+*.iws
+**/*.ipr
+**/*.iws
+**/*.iml
+.idea/*.xml
+.idea/**/*.xml
