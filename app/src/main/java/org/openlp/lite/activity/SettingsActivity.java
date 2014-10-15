@@ -44,7 +44,7 @@ public class SettingsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_page);
+        setContentView(R.layout.settings_activity);
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         settingsMenuValues = getResources().getStringArray(R.array.settings_menu);
@@ -160,8 +160,6 @@ public class SettingsActivity extends Activity {
 
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
+       return true;
     }
 }
