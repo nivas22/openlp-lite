@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="syncFrequency">
-        <item name="databaseFromLocal">Database From Local</item>
-        <item name="databaseFromRemote">Database From Remote</item>
+        <item name="1">Database From Local</item>
+        <item name="7">Database From Remote</item>
     </string-array>
     <string-array name="syncFrequencyValues">
-        <item name="databaseFromLocal">1</item>
-        <item name="databaseFromLocal">2</item>
-    </string-array>
-    <string-array name="fontSize">
-        <item name="small">Small</item>
-        <item name="medium">Medium</item>
-        <item name="high">high</item>
-    </string-array>
-    <string-array name="speed">
-        <item name="Small">10</item>
-        <item name="medium">20</item>
-        <item name="high">30</item>
+        <item name="1">1</item>
+        <item name="7">7</item>
     </string-array>
 
 </resources>

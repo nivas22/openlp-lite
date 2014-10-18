@@ -14,8 +14,6 @@
     <string name="pref_user_name_summary">Set your username</string>
     <string name="pref_user_profile">User Profile</string>
     <string name="pref_update_setting">Update Settings</string>
-    <string name="action_fonts">fonts</string>
-    <string name="pref_config">Color Picker</string>
 
 
 </resources>

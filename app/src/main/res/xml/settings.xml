@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" >
-
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory android:title="@string/pref_user_profile" >
         <EditTextPreference
             android:title="@string/pref_user_name"
             android:summary="@string/pref_user_name_summary"
             android:key="prefUsername"/>
-
-        <ListPreference
-            android:entries="@array/fontSize"
-            android:title="Font Size"
-            android:key="Speed"
-            android:entryValues="@array/speed"
-            android:summary="Normal"
-            android:dialogTitle="Speed"
-            android:defaultValue="5"
-            android:selectable="true"
-            android:enabled="true">
-        </ListPreference>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_update_setting" >
@@ -31,18 +17,4 @@
             android:title="@string/pref_sync_frequency" />
     </PreferenceCategory>
 
-
-        <PreferenceCategory android:title="@string/pref_config" >
-            <it.gmariotti.android.example.colorpicker.calendarstock.ColorPickerPreference
-                android:defaultValue="@android:color/white"
-                android:key="calendar_colorkey"
-                android:negativeButtonText="@null"
-                android:positiveButtonText="@null"
-                android:summary="Preference summary"
-                android:title="Preference Title"
-                app:cal_itemLayout="@layout/calendar_grid_item_color"
-                app:cal_numColumns="5" />
-        </PreferenceCategory>
-
-    </PreferenceScreen>
-
+</PreferenceScreen>
