@@ -27,7 +27,7 @@ proguard/
 
 /.idea
 /*.iml
-app.iml
+*.iml
 
 
 
@@ -38,3 +38,14 @@ app.iml
 .DS_Store
 /build
 
+
+
+app.iml
+*.ipr
+*.iws
+**/*.ipr
+**/*.iws
+**/*.iml
+.idea/*.xml
+.idea/**/*.xml
+.idea/
