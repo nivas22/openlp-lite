@@ -1,7 +1,6 @@
 package org.openlp.lite.parser;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import org.apache.maven.shared.utils.io.FileUtils;
@@ -9,7 +8,6 @@ import org.openlp.lite.domain.Verse;
 import org.openlp.lite.handler.VerseHandler;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
