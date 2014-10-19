@@ -3,10 +3,12 @@
     package="org.openlp.lite" >
 
     <application
+        android:name=".OpenlpApplicaton"
         android:allowBackup="true"
         android:label="OpenLP-Lite"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme" >
+
         <activity
             android:name=".activity.SplashScreenActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
@@ -23,5 +25,6 @@
 
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
 </manifest>

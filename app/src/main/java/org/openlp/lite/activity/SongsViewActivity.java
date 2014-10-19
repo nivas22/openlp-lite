@@ -9,6 +9,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
 import org.openlp.lite.R;
 import org.openlp.lite.page.component.fragment.VerseContentView;
 import java.util.ArrayList;
@@ -44,6 +48,7 @@ public class SongsViewActivity extends FragmentActivity
         actionBar.setDisplayShowHomeEnabled(true);
         // Hide Actionbar Title
         actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         //  Initialise Adapter for the view pager.
         TabAdapter adapter = new TabAdapter();
@@ -122,4 +127,24 @@ public class SongsViewActivity extends FragmentActivity
             return bundleArrayList.size();
         }
     }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(SongsViewActivity.this, UserSettingActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
