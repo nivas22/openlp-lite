@@ -14,11 +14,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-
 import org.openlp.lite.R;
 import org.openlp.lite.dao.SongDao;
 import org.openlp.lite.domain.Song;
+import org.openlp.lite.domain.Verse;
+import org.openlp.lite.parser.VerseParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,9 +28,11 @@ public class SongsListActivity extends Activity {
 
     ListView list_view;
     ArrayAdapter<String> myAdapter;
+    private VerseParser parser;
 
     private SongDao songDao;
     List<Song> songs;
+    List<Verse> verse;
     ArrayAdapter<Song> adapter;
     String[] dataArray;
 
@@ -38,6 +42,7 @@ public class SongsListActivity extends Activity {
         setContentView(R.layout.songs_list_activity);
         list_view = (ListView) findViewById(R.id.list_view);
         songDao = new SongDao(this);
+        parser = new VerseParser();
         try {
             songDao.copyDatabase();
         } catch (Exception ex) {
@@ -56,16 +61,32 @@ public class SongsListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Intent intent = new Intent(SongsListActivity.this, SongsActivity.class);
-                intent.putExtra("data", dataArray);
-                intent.putExtra("position",position);
-                System.out.print("Main Position"+position);
-                startActivity(intent);
+
+                String lyrics = songs.get(position).getLyrics();
+
+                getVerse(lyrics);
+                List<String> verseData = new ArrayList<String>();
+                for(Verse verseContent:verse){
+                    verseData.add(verseContent.getContent());
+                }
+
+
+              Intent intent = new Intent(SongsListActivity.this, SongsActivity.class);
+              intent.putStringArrayListExtra("verseData", (ArrayList<String>) verseData);
+                //intent.putExtra("position",position);
+                //System.out.print("Main Position"+position);
+               startActivity(intent);
             }
 
         });
 
 
+    }
+
+    private void getVerse(String lyrics) {
+        verse = new ArrayList<Verse>();
+        verse = parser.domParser(this, lyrics);
+        Log.d(this.getLocalClassName(),"Verse Size:"+verse.size());
     }
 
     private void loadSongs() {

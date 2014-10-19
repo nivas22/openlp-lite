@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import org.apache.maven.shared.utils.io.IOUtil;
+import org.apache.commons.io.IOUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -102,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
             outputStream = new FileOutputStream(outFileName);
 
             Log.i(this.getClass().getName(), "Output stream: "+ outputStream);
-            IOUtil.copy(inputStream, outputStream);
+            IOUtils.copy(inputStream, outputStream);
             Log.i(this.getClass().getName(), "Copied successfully");
         } catch (Exception ex) {
             Log.e(this.getClass().getName(), "Error occurred while copying database " + ex);
