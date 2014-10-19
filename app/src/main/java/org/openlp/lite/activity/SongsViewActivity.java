@@ -1,0 +1,125 @@
+package org.openlp.lite.activity;
+
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import org.openlp.lite.R;
+import org.openlp.lite.page.component.fragment.VerseContentView;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Seenivasan on 10/8/2014.
+ */
+public class SongsViewActivity extends FragmentActivity
+{
+	private ViewPager viewPager;
+    private ActionBar actionBar;
+    List<String> verseList;
+
+	
+	@Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+    	super.onCreate(savedInstanceState);
+        setContentView(R.layout.tab_page_listener);
+        Intent intent = getIntent();
+        verseList = new ArrayList<String>();
+        verseList = intent.getStringArrayListExtra("verseData");
+        init();
+    }
+
+    private void init() {
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        setContentView(viewPager);
+        //  Init and set ActionBar Properties.
+        actionBar = getActionBar();
+        // Hide Actionbar Icon
+        actionBar.setDisplayShowHomeEnabled(true);
+        // Hide Actionbar Title
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        //  Initialise Adapter for the view pager.
+        TabAdapter adapter = new TabAdapter();
+        ArrayList<Bundle> verseBundle = new ArrayList<Bundle>();
+        for(int index = 0; index < verseList.size(); index++)
+        {
+            //  Prepare Bundle object for each tab.
+            Bundle bundle = new Bundle();
+            bundle.putString("verseData", verseList.get(index));
+            verseBundle.add(bundle);
+            //  Add tabs for the action bar.
+            ActionBar.Tab tab = actionBar.newTab().setText("V"+(index+1))
+                    .setTabListener(adapter);
+            actionBar.addTab(tab);
+        }
+        adapter.setBundle(verseBundle);
+        viewPager.setAdapter(adapter);
+        viewPager.setOnPageChangeListener(adapter);
+    }
+
+    private class TabAdapter extends FragmentPagerAdapter implements ActionBar.TabListener,
+            ViewPager.OnPageChangeListener {
+
+        private ArrayList<Bundle> bundleArrayList;
+
+        public TabAdapter() {
+            super(getSupportFragmentManager());
+        }
+
+        /**
+         * ArrayList of bundle's to pass as Arguments to Fragment.
+         * @param bundles  ArrayList of bundle's
+         */
+        void setBundle(ArrayList<Bundle> bundles) {
+            bundleArrayList = bundles;
+        }
+        @Override
+        public void onPageScrollStateChanged(int position) {
+
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            //  Change the tab selection upon page selection.
+            actionBar.setSelectedNavigationItem(position);
+        }
+
+        @Override
+        public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
+
+        }
+
+        @Override
+        public void onTabSelected(Tab tab, FragmentTransaction arg1) {
+            //  On Tab selection change the View Pager's Current item position.
+            viewPager.setCurrentItem(tab.getPosition());
+        }
+
+        @Override
+        public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
+
+        }
+
+        @Override
+        public Fragment getItem(int pos) {
+            return Fragment.instantiate(SongsViewActivity.this, VerseContentView.class.getName(), bundleArrayList.get(pos));
+        }
+
+        @Override
+        public int getCount() {
+            return bundleArrayList.size();
+        }
+    }
+}

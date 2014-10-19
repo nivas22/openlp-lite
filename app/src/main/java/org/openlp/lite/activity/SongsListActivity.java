@@ -69,13 +69,9 @@ public class SongsListActivity extends Activity {
                 for(Verse verseContent:verse){
                     verseData.add(verseContent.getContent());
                 }
-
-
-              Intent intent = new Intent(SongsListActivity.this, SongsActivity.class);
+              Intent intent = new Intent(SongsListActivity.this, SongsViewActivity.class);
               intent.putStringArrayListExtra("verseData", (ArrayList<String>) verseData);
-                //intent.putExtra("position",position);
-                //System.out.print("Main Position"+position);
-               startActivity(intent);
+              startActivity(intent);
             }
 
         });

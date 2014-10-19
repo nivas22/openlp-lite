@@ -16,10 +16,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SongsListActivity"></activity>
-        <activity android:name=".activity.SongsActivity"></activity>
         <activity android:name=".activity.UserSettingActivity"></activity>
         <activity android:name=".activity.SettingsActivity"></activity>
+        <activity android:name=".activity.SongsViewActivity"></activity>
         <activity android:name=".service.FilePickerService"></activity>
+
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
