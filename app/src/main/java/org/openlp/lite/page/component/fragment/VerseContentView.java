@@ -30,20 +30,18 @@ public class VerseContentView extends Fragment
     private Typeface fontFaceStyle;
     private float fontSize;
     TextView textView;
+    private Typeface fontStyle;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_content_view, container, false);
-
-
         if (getArguments() != null) {
             String text = getArguments().getString("verseData");
             textView = ((TextView) rootView.findViewById(R.id.data));
             textView.setText(text);
-            textView.setTypeface(getTypeFace());
+            textView.setTypeface(getTypeFace(), getFontStyle());
             textView.setTextSize(getFontSize());
-
         }
         return rootView;
     }
@@ -51,7 +49,7 @@ public class VerseContentView extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        textView.setTypeface(getTypeFace());
+        textView.setTypeface(getTypeFace(),getFontStyle());
         textView.setTextSize(getFontSize());
     }
 
@@ -84,5 +82,20 @@ public class VerseContentView extends Fragment
         if(sharedFontSize.equals("HIGH"))
             fontSize=30;
         return fontSize;
+    }
+
+    public int getFontStyle() {
+        String sharedTypeFace = sharedPrefs.getString("prefSetFontStyle","NULL");
+        Log.d(this.getClass().getName(),"Font Face:"+sharedTypeFace);
+        int fontStyle=0;
+        if(sharedTypeFace.equals("BOLD"))
+            fontStyle=Typeface.BOLD;
+        if(sharedTypeFace.equals("BOLD_ITALIC"))
+            fontStyle=Typeface.BOLD_ITALIC;
+        if(sharedTypeFace.equals("ITALIC"))
+            fontStyle=Typeface.ITALIC;
+        if(sharedTypeFace.equals("NORMAL"))
+            fontStyle=Typeface.NORMAL;
+        return fontStyle;
     }
 }

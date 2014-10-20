@@ -129,12 +129,6 @@ public class SettingsActivity extends Activity {
         }
     }
 
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        return true;
-
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -158,8 +152,26 @@ public class SettingsActivity extends Activity {
         }
     }
 
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-       return true;
+    public boolean onCreateOptionsMenu(Menu menu){
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        Intent intent;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                intent = new Intent(this, SongsListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 }
