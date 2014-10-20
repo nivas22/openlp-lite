@@ -22,9 +22,9 @@ public class AbstractDao
         databaseHelper = new DatabaseHelper(context);
     }
 
-    public void copyDatabase() throws IOException
+    public void copyDatabase(String databasePath, boolean dropDatabase) throws IOException
     {
-        databaseHelper.createDataBase();
+        databaseHelper.createDataBase(databasePath, dropDatabase);
     }
 
     public void open()

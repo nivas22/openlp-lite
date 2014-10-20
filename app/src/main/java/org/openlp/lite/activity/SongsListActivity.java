@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+
 import org.openlp.lite.R;
 import org.openlp.lite.dao.SongDao;
 import org.openlp.lite.domain.Song;
@@ -27,7 +28,8 @@ import java.util.List;
  * Created by Seenivasan on 10/1/2014.
  */
 
-public class SongsListActivity extends Activity {
+public class SongsListActivity extends Activity
+{
 
     ListView list_view;
     ArrayAdapter<String> myAdapter;
@@ -40,41 +42,43 @@ public class SongsListActivity extends Activity {
     String[] dataArray;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.songs_list_activity);
         list_view = (ListView) findViewById(R.id.list_view);
         songDao = new SongDao(this);
         parser = new VerseParser();
         try {
-            songDao.copyDatabase();
+            songDao.copyDatabase("", false);
         } catch (Exception ex) {
             Log.w(this.getClass().getName(), "Error occurred while creating database", ex);
         }
         songDao.open();
         loadSongs();
-        dataArray=new String[songs.size()];
-        for(int i=0; i<songs.size();i++)
-        {
-            dataArray[i]=songs.get(i).toString();
+        dataArray = new String[songs.size()];
+        for (int i = 0; i < songs.size(); i++) {
+            dataArray[i] = songs.get(i).toString();
         }
 
-        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+                                    int position, long id)
+            {
 
                 String lyrics = songs.get(position).getLyrics();
 
                 getVerse(lyrics);
                 List<String> verseData = new ArrayList<String>();
-                for(Verse verseContent:verse){
+                for (Verse verseContent : verse) {
                     verseData.add(verseContent.getContent());
                 }
-              Intent intent = new Intent(SongsListActivity.this, SongsViewActivity.class);
-              intent.putStringArrayListExtra("verseData", (ArrayList<String>) verseData);
-              startActivity(intent);
+                Intent intent = new Intent(SongsListActivity.this, SongsViewActivity.class);
+                intent.putStringArrayListExtra("verseData", (ArrayList<String>) verseData);
+                startActivity(intent);
             }
 
         });
@@ -82,13 +86,15 @@ public class SongsListActivity extends Activity {
 
     }
 
-    private void getVerse(String lyrics) {
+    private void getVerse(String lyrics)
+    {
         verse = new ArrayList<Verse>();
         verse = parser.parseVerseDom(this, lyrics);
-        Log.d(this.getLocalClassName(),"Verse Size:"+verse.size());
+        Log.d(this.getLocalClassName(), "Verse Size:" + verse.size());
     }
 
-    private void loadSongs() {
+    private void loadSongs()
+    {
         songs = songDao.findTitles();
         adapter = new ArrayAdapter<Song>(this,
                 android.R.layout.simple_list_item_1, songs);
@@ -96,7 +102,8 @@ public class SongsListActivity extends Activity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.default_action_bar_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -111,6 +118,7 @@ public class SongsListActivity extends Activity {
                 adapter.getFilter().filter(newText);
                 return true;
             }
+
             @Override
             public boolean onQueryTextSubmit(String query)
             {
@@ -123,7 +131,8 @@ public class SongsListActivity extends Activity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
