@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +19,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import org.openlp.lite.R;
+import org.openlp.lite.dao.SongDao;
 import org.openlp.lite.service.FilePickerService;
-
 
 import java.io.File;
 
@@ -35,16 +33,17 @@ public class SettingsActivity extends Activity {
 
     private static final int REQUEST_PICK_FILE = 1;
     private File selectedFile;
+    private SongDao songDao;
     final Context context = this;
     ListView settingsMenuList;
     String settingsMenuValues[];
     AlertDialog levelDialog;
 
     @SuppressLint("NewApi")
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+        songDao = new SongDao(this);
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         settingsMenuValues = getResources().getStringArray(R.array.settings_menu);
@@ -96,35 +95,30 @@ public class SettingsActivity extends Activity {
         levelDialog.show();
     }
 
-    private class ListAdapter extends BaseAdapter
-    {
+    private class ListAdapter extends BaseAdapter {
         LayoutInflater inflater;
 
-        public ListAdapter(Context context)
-        {
+        public ListAdapter(Context context) {
             inflater = LayoutInflater.from(context);
         }
 
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
+        public View getView(int position, View convertView, ViewGroup parent) {
             TextView txt_view1;
             convertView = inflater.inflate(R.layout.settings_list_textview, null);
             txt_view1 = (TextView) convertView.findViewById(R.id.textView1);
             txt_view1.setText(settingsMenuValues[position]);
             return convertView;
         }
-        public int getCount()
-        {
+
+        public int getCount() {
             return settingsMenuValues.length;
         }
 
-        public Object getItem(int position)
-        {
+        public Object getItem(int position) {
             return position;
         }
 
-        public long getItemId(int position)
-        {
+        public long getItemId(int position) {
             return position;
         }
     }
@@ -132,27 +126,37 @@ public class SettingsActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
 
-            switch(requestCode) {
+            switch (requestCode) {
 
                 case REQUEST_PICK_FILE:
 
-                    if(data.hasExtra(FilePickerService.EXTRA_FILE_PATH)) {
+                    if (data.hasExtra(FilePickerService.EXTRA_FILE_PATH)) {
 
                         levelDialog.dismiss();
                         selectedFile = new File
                                 (data.getStringExtra(FilePickerService.EXTRA_FILE_PATH));
 
-                        Toast.makeText(SettingsActivity.this, "File Path is" + selectedFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-                       // filePath.setText(selectedFile.getPath());
+                        try {
+                            songDao.copyDatabase(selectedFile.getAbsolutePath(), true);
+                            Toast.makeText(SettingsActivity.this, "Database is loaded from the file Path: " + selectedFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(this, SongsListActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        } catch (Exception e) {
+
+                        }
+
+                        // filePath.setText(selectedFile.getPath());
+
                     }
                     break;
             }
         }
     }
 
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
 
