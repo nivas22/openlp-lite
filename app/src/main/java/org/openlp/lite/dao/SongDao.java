@@ -29,7 +29,7 @@ public class SongDao extends AbstractDao
     {
         List<Song> songs = new ArrayList<Song>();
         Cursor cursor = getDatabase().query(TABLE_NAME_AUTHOR,
-                new String[]{"title"}, null, null, null, null, null);
+                new String[]{"title","lyrics"}, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Song song = cursorToSong(cursor);
@@ -44,6 +44,7 @@ public class SongDao extends AbstractDao
     {
         Song song = new Song();
         song.setTitle(cursor.getString(0));
+        song.setLyrics(cursor.getString(1));
         return song;
     }
 }

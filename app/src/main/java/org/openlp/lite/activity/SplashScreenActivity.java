@@ -7,6 +7,10 @@ import android.os.Handler;
 
 import org.openlp.lite.R;
 
+/**
+ * Created by Seenivasan on 10/1/2014.
+ */
+
 
 public class SplashScreenActivity extends Activity {
 
