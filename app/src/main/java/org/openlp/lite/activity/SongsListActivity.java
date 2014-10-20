@@ -68,29 +68,26 @@ public class SongsListActivity extends Activity
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id)
             {
-
                 String lyrics = songs.get(position).getLyrics();
-
                 getVerse(lyrics);
-                List<String> verseData = new ArrayList<String>();
-                for (Verse verseContent : verse) {
-                    verseData.add(verseContent.getContent());
+                List<String> verseName = new ArrayList<String>();
+                List<String> verseContent = new ArrayList<String>();
+                for (Verse verses : verse) {
+                    verseName.add(verses.getType() + verses.getLabel());
+                    verseContent.add(verses.getContent());
                 }
                 Intent intent = new Intent(SongsListActivity.this, SongsViewActivity.class);
-                intent.putStringArrayListExtra("verseData", (ArrayList<String>) verseData);
+                intent.putStringArrayListExtra("verseName", (ArrayList<String>) verseName);
+                intent.putStringArrayListExtra("verseContent", (ArrayList<String>) verseContent);
                 startActivity(intent);
             }
-
         });
-
-
     }
 
     private void getVerse(String lyrics)
     {
         verse = new ArrayList<Verse>();
         verse = parser.parseVerseDom(this, lyrics);
-        Log.d(this.getLocalClassName(), "Verse Size:" + verse.size());
     }
 
     private void loadSongs()

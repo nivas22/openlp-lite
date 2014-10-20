@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,7 +26,8 @@ public class SongsViewActivity extends FragmentActivity
 {
 	private ViewPager viewPager;
     private ActionBar actionBar;
-    List<String> verseList;
+    List<String> verseName;
+    List<String> verseContent;
 
 	
 	@Override
@@ -34,8 +36,11 @@ public class SongsViewActivity extends FragmentActivity
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_page_listener);
         Intent intent = getIntent();
-        verseList = new ArrayList<String>();
-        verseList = intent.getStringArrayListExtra("verseData");
+        verseName = new ArrayList<String>();
+        verseContent = new ArrayList<String>();
+        verseName  = intent.getStringArrayListExtra("verseName");
+        verseContent = intent.getStringArrayListExtra("verseContent");
+        Log.d(this.getClass().getName(), "Verse name Size:" + verseName.size());
         init();
     }
 
@@ -53,14 +58,15 @@ public class SongsViewActivity extends FragmentActivity
         //  Initialise Adapter for the view pager.
         TabAdapter adapter = new TabAdapter();
         ArrayList<Bundle> verseBundle = new ArrayList<Bundle>();
-        for(int index = 0; index < verseList.size(); index++)
+        for(int index = 0; index < verseName.size(); index++)
         {
             //  Prepare Bundle object for each tab.
             Bundle bundle = new Bundle();
-            bundle.putString("verseData", verseList.get(index));
+            bundle.putString("verseData", verseContent.get(index));
             verseBundle.add(bundle);
             //  Add tabs for the action bar.
-            ActionBar.Tab tab = actionBar.newTab().setText("V"+(index+1))
+            Log.d(this.getClass().getName(), "Verse name" + verseName.get(index));
+            ActionBar.Tab tab = actionBar.newTab().setText(verseName.get(index))
                     .setTabListener(adapter);
             actionBar.addTab(tab);
         }
