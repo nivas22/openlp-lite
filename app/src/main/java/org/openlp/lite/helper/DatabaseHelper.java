@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,9 +22,9 @@ import java.io.OutputStream;
  */
 public class DatabaseHelper extends SQLiteOpenHelper
 {
-    public static String DB_PATH = "";
-    private static final int DATABASE_VERSION = 3;
-    public static String DB_NAME = "songs.sqlite";
+    public static String dbPath = "";
+    private static final int dataBaseVersion = 3;
+    public static String dbName = "songs.sqlite";
     private SQLiteDatabase database;
     private final Context context;
 
@@ -33,28 +36,31 @@ public class DatabaseHelper extends SQLiteOpenHelper
      */
     public DatabaseHelper(Context context)
     {
-        super(context, DB_NAME, null, DATABASE_VERSION);
+        super(context, dbName, null, dataBaseVersion);
         this.context = context;
-        this.DB_PATH = "/data/data/" + context.getApplicationContext().getPackageName() + "/databases/";
+        this.dbPath = "/data/data/" + context.getApplicationContext().getPackageName() + "/databases/";
     }
 
     /**
      * Creates a empty database on the system and rewrites it with your own database.
      */
-    public void createDataBase() throws IOException
+    public void createDataBase(String databasePath, boolean dropDatabase) throws IOException
     {
         Log.w(this.getClass().getName(), "Preparing to create database");
+        if (dropDatabase) {
+            context.deleteDatabase(dbName);
+        }
         boolean dbExist = checkDataBase();
         if (dbExist) {
             //do nothing - database already exist
-            Log.w(this.getClass().getName(), "DB already exists");
+            Log.w(this.getClass().getName(), "Database " + dbName + " already exists");
         } else {
-            Log.w(this.getClass().getName(), "DB is not exists");
+            Log.w(this.getClass().getName(), "Database " + dbName + " is not exists");
             //By calling this method and empty database will be created into the default system path
             //of your application so we are gonna be able to overwrite that database with our database.
             this.getReadableDatabase();
             try {
-                copyDataBase();
+                copyDataBase(databasePath);
             } catch (Exception ex) {
                 Log.e(this.getClass().getName(), "Error occurred while copy database " + ex);
             }
@@ -70,7 +76,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     {
         SQLiteDatabase checkDB = null;
         try {
-            String myPath = DB_PATH + DB_NAME;
+            String myPath = dbPath + dbName;
             Log.w(this.getClass().getName(), "DB path" + myPath);
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
 
@@ -89,19 +95,23 @@ public class DatabaseHelper extends SQLiteOpenHelper
      * system folder, from where it can be accessed and handled.
      * This is done by transfering bytestream.
      */
-    public void copyDataBase() throws IOException
+    public void copyDataBase(String databasePath) throws IOException
     {
         Log.i(this.getClass().getName(), "Preparing to copy database");
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
-            inputStream = context.getAssets().open(DB_NAME);
-            String outFileName = DB_PATH + DB_NAME;
-            Log.i(this.getClass().getName(), "Db path: "+ outFileName);
-            Log.i(this.getClass().getName(), "InputStream : "+ inputStream);
+            if (StringUtils.isNotBlank(databasePath)) {
+                inputStream = new FileInputStream(new File(databasePath));
+            } else {
+                inputStream = context.getAssets().open(dbName);
+            }
+            String outFileName = dbPath + dbName;
+            Log.i(this.getClass().getName(), "Db path: " + outFileName);
+            Log.i(this.getClass().getName(), "InputStream : " + inputStream);
             outputStream = new FileOutputStream(outFileName);
 
-            Log.i(this.getClass().getName(), "Output stream: "+ outputStream);
+            Log.i(this.getClass().getName(), "Output stream: " + outputStream);
             IOUtils.copy(inputStream, outputStream);
             Log.i(this.getClass().getName(), "Copied successfully");
         } catch (Exception ex) {
@@ -116,7 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public SQLiteDatabase openDataBase() throws SQLException
     {
         //Open the database
-        String myPath = DB_PATH + DB_NAME;
+        String myPath = dbPath + dbName;
         database = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
         return database;
     }

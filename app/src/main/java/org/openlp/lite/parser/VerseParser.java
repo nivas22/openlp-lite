@@ -29,22 +29,21 @@ public class VerseParser
 {
     File xmlFile = null;
     List<Verse> verses = new ArrayList<Verse>();
+
     public List<Verse> parseVerse(Context context, String content)
     {
-
         try {
             File externalCacheDir = context.getExternalCacheDir();
             xmlFile = File.createTempFile("verse", "xml", externalCacheDir);
             Log.d(this.getClass().getName(), xmlFile.getAbsolutePath() + "created successfully");
-            FileUtils.write(xmlFile,content);
-            Log.d(this.getClass().getName(),"XML Content"+FileUtils.readFileToString(xmlFile));
+            FileUtils.write(xmlFile, content);
+            Log.d(this.getClass().getName(), "XML Content" + FileUtils.readFileToString(xmlFile));
             SAXParserFactory factory = SAXParserFactory.newInstance();
-    //            factory.setValidating(true);
+            //            factory.setValidating(true);
             SAXParser parser = factory.newSAXParser();
             VerseHandler verseHandler = new VerseHandler();
             parser.parse(xmlFile, verseHandler);
             verses.addAll(verseHandler.getVerseList());
-            //Log.d(this.getClass().getName(),"Verse Lyrics:"+verses);
             return verses;
         } catch (Exception ex) {
             Log.e(this.getClass().getName(), "Error occurred while parsing verse", ex);
@@ -54,13 +53,14 @@ public class VerseParser
         return verses;
     }
 
-    public List<Verse> domParser(Context context, String content) {
+    public List<Verse> parseVerseDom(Context context, String content)
+    {
         List<Verse> verses = new ArrayList<Verse>();
         try {
             File externalCacheDir = context.getExternalCacheDir();
             xmlFile = File.createTempFile("verse", "xml", externalCacheDir);
             Log.d(this.getClass().getName(), xmlFile.getAbsolutePath() + "created successfully");
-            FileUtils.write(xmlFile,content);
+            FileUtils.write(xmlFile, content);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setCoalescing(true);
             Document doc = factory.newDocumentBuilder().parse(xmlFile);
@@ -68,6 +68,8 @@ public class VerseParser
             for (int i = 0; i < nodes.getLength(); i++) {
                 Element element = (Element) nodes.item(i);
                 Verse verse = new Verse();
+                verse.setLabel(Integer.parseInt(element.getAttribute("label")));
+                verse.setContent(element.getAttribute("type"));
                 verse.setContent(getCharacterDataFromElement(element));
                 verses.add(verse);
             }
