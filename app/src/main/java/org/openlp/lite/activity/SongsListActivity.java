@@ -84,7 +84,7 @@ public class SongsListActivity extends Activity {
 
     private void getVerse(String lyrics) {
         verse = new ArrayList<Verse>();
-        verse = parser.domParser(this, lyrics);
+        verse = parser.parseVerseDom(this, lyrics);
         Log.d(this.getLocalClassName(),"Verse Size:"+verse.size());
     }
 
