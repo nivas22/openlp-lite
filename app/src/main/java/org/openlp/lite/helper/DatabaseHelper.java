@@ -46,16 +46,16 @@ public class DatabaseHelper extends SQLiteOpenHelper
      */
     public void createDataBase(String databasePath, boolean dropDatabase) throws IOException
     {
-        Log.w(this.getClass().getName(), "Preparing to create database");
+        Log.d(this.getClass().getName(), "Preparing to create database");
         if (dropDatabase) {
             context.deleteDatabase(dbName);
         }
         boolean dbExist = checkDataBase();
         if (dbExist) {
             //do nothing - database already exist
-            Log.w(this.getClass().getName(), "Database " + dbName + " already exists");
+            Log.d(this.getClass().getName(), "Database " + dbName + " already exists");
         } else {
-            Log.w(this.getClass().getName(), "Database " + dbName + " is not exists");
+            Log.d(this.getClass().getName(), "Database " + dbName + " is not exists");
             //By calling this method and empty database will be created into the default system path
             //of your application so we are gonna be able to overwrite that database with our database.
             this.getReadableDatabase();
@@ -76,13 +76,11 @@ public class DatabaseHelper extends SQLiteOpenHelper
     {
         SQLiteDatabase checkDB = null;
         try {
-            String myPath = dbPath + dbName;
-            Log.w(this.getClass().getName(), "DB path" + myPath);
-            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-
+            String databasePath = dbPath + dbName;
+            Log.d(this.getClass().getName(), "Database path" + databasePath);
+            checkDB = SQLiteDatabase.openDatabase(databasePath, null, SQLiteDatabase.OPEN_READONLY);
         } catch (Exception ex) {
             Log.e(this.getClass().getName(), "Error occurred while checking database" + ex);
-            //database does't exist yet.
         }
         if (checkDB != null) {
             checkDB.close();

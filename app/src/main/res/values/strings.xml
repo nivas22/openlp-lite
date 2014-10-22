@@ -19,6 +19,11 @@
     <string name="pref_change_font_style">Font Style</string>
     <string name="pref_font_face_summary">Change font face</string>
     <string name="pref_change_font_face">Font Face</string>
+    <!--Download remote url-->
+    <string name="remoteUrlTitle">Remote url</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="remoteUrl">https://raw.githubusercontent.com/swotge/openlp-lite/master/README.md</string>
 
 
 </resources>
