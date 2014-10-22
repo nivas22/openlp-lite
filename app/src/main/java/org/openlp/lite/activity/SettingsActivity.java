@@ -21,11 +21,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import org.openlp.lite.R;
 import org.openlp.lite.task.AsyncDownloadTask;
+import org.openlp.lite.dao.SongDao;
 import org.openlp.lite.service.FilePickerService;
-
 
 import java.io.File;
 
@@ -38,6 +37,7 @@ public class SettingsActivity extends Activity
 
     private static final int REQUEST_PICK_FILE = 1;
     private File selectedFile;
+    private SongDao songDao;
     final Context context = this;
     ListView settingsMenuList;
     String settingsMenuValues[];
@@ -48,6 +48,7 @@ public class SettingsActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+        songDao = new SongDao(this);
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         settingsMenuValues = getResources().getStringArray(R.array.settings_menu);
@@ -126,6 +127,7 @@ public class SettingsActivity extends Activity
                     downloadSongFile = File.createTempFile("downloadsongs", "sqlite", externalCacheDir);
                     if (asyncDownloadTask.execute(remoteUrl, downloadSongFile.getAbsolutePath()).get()) {
                         //do something after downloading
+                        songDao.copyDatabase(downloadSongFile.getAbsolutePath(), true);
                     } else {
                         Log.w(this.getClass().getSimpleName(), "File is not downloaded from " + remoteUrl);
                     }
@@ -151,6 +153,7 @@ public class SettingsActivity extends Activity
 
     private class ListAdapter extends BaseAdapter
     {
+
         LayoutInflater inflater;
 
         public ListAdapter(Context context)
@@ -201,11 +204,24 @@ public class SettingsActivity extends Activity
 
                         Toast.makeText(SettingsActivity.this, "File Path is" + selectedFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
                         // filePath.setText(selectedFile.getPath());
+                        try {
+                            songDao.copyDatabase(selectedFile.getAbsolutePath(), true);
+                            Toast.makeText(SettingsActivity.this, "Database is loaded from the file Path: " + selectedFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(this, SongsListActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        } catch (Exception e) {
+
+                        }
+
+                        // filePath.setText(selectedFile.getPath());
+
                     }
                     break;
             }
         }
     }
+
 
     public boolean onCreateOptionsMenu(Menu menu)
     {
