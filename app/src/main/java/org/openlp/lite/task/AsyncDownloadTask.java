@@ -52,5 +52,6 @@ public class AsyncDownloadTask extends AsyncTask<String, Void, Boolean>
             Log.e(this.getClass().getSimpleName(), "Error", ex);
             return false;
         }
+
     }
 }
