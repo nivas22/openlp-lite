@@ -7,10 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.2'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
-
-
-        // NOTE: Do not place your application dependencies here; they belong
+               // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
@@ -24,13 +21,6 @@ allprojects {
         jcenter()
 
         mavenCentral()
-        maven {
-            url "https://repository-partnerdemo.forge.cloudbees.com/release/"
-        }
-
        // maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-
-
-
     }
 }
