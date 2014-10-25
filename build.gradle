@@ -20,6 +20,9 @@ allprojects {
         jcenter()
 
         mavenCentral()
+        maven {
+            url "https://repository-partnerdemo.forge.cloudbees.com/release/"
+        }
 
        // maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 
