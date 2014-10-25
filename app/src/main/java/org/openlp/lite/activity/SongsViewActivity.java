@@ -16,6 +16,8 @@ import android.view.MenuItem;
 
 import org.openlp.lite.R;
 import org.openlp.lite.page.component.fragment.VerseContentView;
+import org.openlp.lite.page.component.list.PinnedSectionListActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class SongsViewActivity extends FragmentActivity
     private ActionBar actionBar;
     List<String> verseName;
     List<String> verseContent;
+    private boolean addPadding = true;
 
 	
 	@Override
@@ -141,6 +144,13 @@ public class SongsViewActivity extends FragmentActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.tabbedView).setChecked(true);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -152,15 +162,19 @@ public class SongsViewActivity extends FragmentActivity
                 intent = new Intent(this, SongsListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                return true;
+                break;
             case R.id.action_settings:
                 intent = new Intent(SongsViewActivity.this, UserSettingActivity.class);
                 startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+                break;
+            case R.id.sectionView:
+                intent = new Intent(this, PinnedSectionListActivity.class);
+                intent.putStringArrayListExtra("verseName", (ArrayList<String>) verseName);
+                intent.putStringArrayListExtra("verseContent", (ArrayList<String>) verseContent);
+                startActivity(intent);
+                break;
         }
-
+        return true;
     }
 
 }

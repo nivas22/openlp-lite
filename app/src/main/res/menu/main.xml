@@ -9,4 +9,11 @@
         android:showAsAction="always"
         tools:ignore="AppCompatResource"/>
 
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/sectionView"
+            android:title="Section View" android:checked="true"/>
+        <item android:id="@+id/tabbedView"
+            android:title="Tabbed View" />
+
+    </group>
 </menu>

@@ -9,6 +9,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:id="@+id/data"
+        android:textSize="14dp"
+        android:typeface="normal"
         android:text="Page1" />
-
 </RelativeLayout>

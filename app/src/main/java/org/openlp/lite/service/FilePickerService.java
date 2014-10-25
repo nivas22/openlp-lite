@@ -7,6 +7,7 @@ package org.openlp.lite.service;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -174,9 +175,12 @@ public class FilePickerService extends ListActivity {
             File object = mObjects.get(position);
 
             ImageView imageView = (ImageView)row.findViewById(R.id.file_picker_image);
+            imageView.setMaxWidth(10);
             TextView textView = (TextView)row.findViewById(R.id.file_picker_text);
             textView.setSingleLine(true);
             textView.setText(object.getName());
+            textView.setTextSize(10);
+            textView.setTypeface(Typeface.SANS_SERIF);
 
             if(object.isFile())
                 imageView.setImageResource(R.drawable.file);
