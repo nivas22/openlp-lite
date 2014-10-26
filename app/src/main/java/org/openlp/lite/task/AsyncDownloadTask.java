@@ -21,6 +21,8 @@ import java.net.URLConnection;
  */
 public class AsyncDownloadTask extends AsyncTask<String, Void, Boolean>
 {
+    public static final String GET_REQUEST = "GET";
+
     @Override
     protected Boolean doInBackground(String... strings)
     {
@@ -28,12 +30,12 @@ public class AsyncDownloadTask extends AsyncTask<String, Void, Boolean>
             String remoteUrl = strings[0];
             String destinationPath = strings[1];
             String className = this.getClass().getSimpleName();
-            Log.i(className, "Preparing to download " + destinationPath + "from " + remoteUrl);
+            Log.i(className, "Preparing to download " + destinationPath + " from " + remoteUrl);
             File destinationFile = new File(destinationPath);
             URL url = new URL(remoteUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
-            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestMethod(GET_REQUEST);
             urlConnection.setDoOutput(true);
             urlConnection.connect();
             DataInputStream dataInputStream = new DataInputStream(urlConnection.getInputStream());

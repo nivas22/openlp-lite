@@ -27,19 +27,24 @@ import javax.xml.parsers.SAXParserFactory;
  */
 public class VerseParser
 {
-    File xmlFile = null;
-    List<Verse> verses = new ArrayList<Verse>();
+    public static final String XML_FILE_NAME = "verse";
+    public static final String EXTENSION = "xml";
+    public static final String VERSE_ELEMENT_NAME ="verse";
+    public static final String LABEL_ATTRIBUTE_NAME = "label";
+    public static final String TYPE_ATTRIBUTE_NAME = "type";
+    private File xmlFile = null;
 
     public List<Verse> parseVerse(Context context, String content)
     {
+        List<Verse> verses = new ArrayList<Verse>();
         try {
             File externalCacheDir = context.getExternalCacheDir();
-            xmlFile = File.createTempFile("verse", "xml", externalCacheDir);
+            xmlFile = File.createTempFile(XML_FILE_NAME, EXTENSION, externalCacheDir);
             Log.d(this.getClass().getName(), xmlFile.getAbsolutePath() + "created successfully");
             FileUtils.write(xmlFile, content);
             Log.d(this.getClass().getName(), "XML Content" + FileUtils.readFileToString(xmlFile));
             SAXParserFactory factory = SAXParserFactory.newInstance();
-            //            factory.setValidating(true);
+            //factory.setValidating(true);
             SAXParser parser = factory.newSAXParser();
             VerseHandler verseHandler = new VerseHandler();
             parser.parse(xmlFile, verseHandler);
@@ -58,18 +63,18 @@ public class VerseParser
         List<Verse> verses = new ArrayList<Verse>();
         try {
             File externalCacheDir = context.getExternalCacheDir();
-            xmlFile = File.createTempFile("verse", "xml", externalCacheDir);
+            xmlFile = File.createTempFile(XML_FILE_NAME, EXTENSION, externalCacheDir);
             Log.d(this.getClass().getName(), xmlFile.getAbsolutePath() + "created successfully");
             FileUtils.write(xmlFile, content);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setCoalescing(true);
-            Document doc = factory.newDocumentBuilder().parse(xmlFile);
-            NodeList nodes = doc.getElementsByTagName("verse");
-            for (int i = 0; i < nodes.getLength(); i++) {
-                Element element = (Element) nodes.item(i);
+            Document document = factory.newDocumentBuilder().parse(xmlFile);
+            NodeList nodeList = document.getElementsByTagName(VERSE_ELEMENT_NAME);
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Element element = (Element) nodeList.item(i);
                 Verse verse = new Verse();
-                verse.setLabel(Integer.parseInt(element.getAttribute("label")));
-                verse.setType(element.getAttribute("type"));
+                verse.setLabel(Integer.parseInt(element.getAttribute(LABEL_ATTRIBUTE_NAME)));
+                verse.setType(element.getAttribute(TYPE_ATTRIBUTE_NAME));
                 verse.setContent(getCharacterDataFromElement(element));
                 verses.add(verse);
             }
@@ -81,12 +86,12 @@ public class VerseParser
         return verses;
     }
 
-    public static String getCharacterDataFromElement(Element e)
+    public static String getCharacterDataFromElement(Element element)
     {
-        Node child = e.getFirstChild();
+        Node child = element.getFirstChild();
         if (child instanceof CharacterData) {
-            CharacterData cd = (CharacterData) child;
-            return cd.getData();
+            CharacterData characterData = (CharacterData) child;
+            return characterData.getData();
         }
         return "";
     }
