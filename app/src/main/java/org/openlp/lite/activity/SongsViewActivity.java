@@ -67,8 +67,6 @@ public class SongsViewActivity extends FragmentActivity
             Bundle bundle = new Bundle();
             bundle.putString("verseData", verseContent.get(index));
             verseBundle.add(bundle);
-            //  Add tabs for the action bar.
-            Log.d(this.getClass().getName(), "Verse name" + verseName.get(index));
             ActionBar.Tab tab = actionBar.newTab().setText(verseName.get(index))
                     .setTabListener(adapter);
             actionBar.addTab(tab);

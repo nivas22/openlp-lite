@@ -11,9 +11,12 @@
 
     <group android:checkableBehavior="single">
         <item android:id="@+id/sectionView"
-            android:title="Section View" android:checked="true"/>
+            android:title="Columned View" android:checked="true"/>
         <item android:id="@+id/tabbedView"
             android:title="Tabbed View" />
-
     </group>
+
+    <item android:id="@+id/custom_tab_settings"
+        android:title="@string/custom_tab_settings"
+        tools:ignore="AppCompatResource"/>
 </menu>

@@ -1,4 +1,4 @@
-package org.openlp.lite.service;
+package org.openlp.lite.activity;
 
 /**
  * Created by Seenivasan on 10/12/2014.
@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class FilePickerService extends ListActivity {
+public class FilePickerActivity extends ListActivity {
 
     public final static String EXTRA_FILE_PATH = "file_path";
     public final static String EXTRA_SHOW_HIDDEN_FILES = "show_hidden_files";

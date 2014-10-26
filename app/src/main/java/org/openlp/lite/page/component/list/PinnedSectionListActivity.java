@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,12 +15,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.openlp.lite.OpenlpApplicaton;
 import org.openlp.lite.R;
 import org.openlp.lite.activity.SongsListActivity;
 import org.openlp.lite.activity.SongsViewActivity;
 import org.openlp.lite.activity.UserSettingActivity;
+import org.openlp.lite.activity.CustomTabSettings;
+import org.openlp.lite.service.CustomTagColorService;
 import org.openlp.lite.service.UserPreferenceSettingService;
 
 import java.util.ArrayList;
@@ -32,12 +37,13 @@ public class PinnedSectionListActivity extends ListActivity implements OnClickLi
     private ActionBar actionBar;
     TextView textView;
     UserPreferenceSettingService preferenceSettingService;
+    CustomTagColorService customTagColorService;
+    Context context = OpenlpApplicaton.getContext();
 
     class SimpleAdapter extends ArrayAdapter<Item> implements PinnedSectionListView.PinnedSectionListAdapter {
 
         private final int[] COLORS = new int[]{
-                R.color.dark_blue, R.color.orange_light,
-                R.color.blue_light, R.color.red_light};
+                R.color.blue_light};
 
         public SimpleAdapter(Context context, int resource, int textViewResourceId) {
             super(context, resource, textViewResourceId);
@@ -71,11 +77,15 @@ public class PinnedSectionListActivity extends ListActivity implements OnClickLi
             if (item.type != Item.SECTION) {
                 //view.setOnClickListener(PinnedSectionListActivity.this);
                 preferenceSettingService = new UserPreferenceSettingService();
-                textView.setHeight(1000);
-                textView.setPadding(50, -150, 50, 100);
+                String text = textView.getText().toString();
+                Log.d(this.getClass().getName(),"Text View"+textView.getText());
+                customTagColorService = new CustomTagColorService();
+                textView.setText("");
+                customTagColorService.setCustomTagTextView(context,text.toString(),textView);
                 textView.setTypeface(preferenceSettingService.getTypeFace(), preferenceSettingService.getFontStyle());
                 textView.setTextSize(preferenceSettingService.getFontSize());
                 textView.setTextColor(preferenceSettingService.getColor());
+
             }
             return textView;
         }
@@ -195,7 +205,10 @@ public class PinnedSectionListActivity extends ListActivity implements OnClickLi
                 intent = new Intent(this, UserSettingActivity.class);
                 startActivity(intent);
                 break;
-
+            case R.id.custom_tab_settings:
+                intent = new Intent(this, CustomTabSettings.class);
+                startActivity(intent);
+                break;
         }
         return true;
     }

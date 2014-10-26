@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +21,7 @@ import android.widget.Toast;
 
 import org.openlp.lite.R;
 import org.openlp.lite.dao.SongDao;
-import org.openlp.lite.service.FilePickerService;
+import org.openlp.lite.picker.ColorPickerPreference;
 
 import java.io.File;
 
@@ -54,7 +53,16 @@ public class SettingsActivity extends Activity {
         settingsMenuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                AlertDialogView();
+                if(position==0){
+                    AlertDialogView();
+                }
+                else{
+                    Intent  intent;
+                    intent = new Intent(SettingsActivity.this, ColorPickerPreference.class);
+                    startActivity(intent);
+                }
+
+
             }
 
         });
@@ -70,7 +78,7 @@ public class SettingsActivity extends Activity {
             public void onClick(DialogInterface dialog, int item) {
                 switch (item) {
                     case 0:
-                        Intent intent = new Intent(SettingsActivity.this, FilePickerService.class);
+                        Intent intent = new Intent(SettingsActivity.this, FilePickerActivity.class);
                         intent.setType("storage/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(intent, REQUEST_PICK_FILE);
@@ -78,6 +86,7 @@ public class SettingsActivity extends Activity {
 
                     case 1:
                         // Your code when 2nd  option seletced
+
 
                         break;
                     case 2:
@@ -133,11 +142,11 @@ public class SettingsActivity extends Activity {
 
                 case REQUEST_PICK_FILE:
 
-                    if (data.hasExtra(FilePickerService.EXTRA_FILE_PATH)) {
+                    if (data.hasExtra(FilePickerActivity.EXTRA_FILE_PATH)) {
 
                         levelDialog.dismiss();
                         selectedFile = new File
-                                (data.getStringExtra(FilePickerService.EXTRA_FILE_PATH));
+                                (data.getStringExtra(FilePickerActivity.EXTRA_FILE_PATH));
 
                         try {
                             songDao.copyDatabase(selectedFile.getAbsolutePath(), true);
