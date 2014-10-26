@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,10 +21,12 @@ import org.openlp.lite.R;
 import org.openlp.lite.dao.SongDao;
 import org.openlp.lite.domain.Song;
 import org.openlp.lite.domain.Verse;
+import org.openlp.lite.page.component.list.PinnedSectionListActivity;
 import org.openlp.lite.parser.VerseParser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by Seenivasan on 10/1/2014.
@@ -46,6 +50,7 @@ public class SongsListActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.songs_list_activity);
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         list_view = (ListView) findViewById(R.id.list_view);
         songDao = new SongDao(this);
         parser = new VerseParser();
@@ -60,6 +65,7 @@ public class SongsListActivity extends Activity
         for (int i = 0; i < songs.size(); i++) {
             dataArray[i] = songs.get(i).toString();
         }
+        initColor();
 
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -68,29 +74,35 @@ public class SongsListActivity extends Activity
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id)
             {
-
-                String lyrics = songs.get(position).getLyrics();
-
+                Song selectedValue = adapter.getItem(position);
+                String lyrics = selectedValue.getLyrics();
                 getVerse(lyrics);
-                List<String> verseData = new ArrayList<String>();
-                for (Verse verseContent : verse) {
-                    verseData.add(verseContent.getContent());
+                List<String> verseName = new ArrayList<String>();
+                List<String> verseContent = new ArrayList<String>();
+                for (Verse verses : verse) {
+                    verseName.add(verses.getType() + verses.getLabel());
+                    verseContent.add(verses.getContent());
                 }
-                Intent intent = new Intent(SongsListActivity.this, SongsViewActivity.class);
-                intent.putStringArrayListExtra("verseData", (ArrayList<String>) verseData);
+                Intent intent = new Intent(SongsListActivity.this, PinnedSectionListActivity.class);
+                intent.putStringArrayListExtra("verseName", (ArrayList<String>) verseName);
+                intent.putStringArrayListExtra("verseContent", (ArrayList<String>) verseContent);
                 startActivity(intent);
             }
-
         });
+    }
 
-
+    private void initColor() {
+        SharedPreferences customSharedPreference = getSharedPreferences("myCustomSharedPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = customSharedPreference.edit();
+        editor.putInt("color2", -16711936);
+        editor.commit();
     }
 
     private void getVerse(String lyrics)
     {
         verse = new ArrayList<Verse>();
         verse = parser.parseVerseDom(this, lyrics);
-        Log.d(this.getLocalClassName(), "Verse Size:" + verse.size());
+        Log.d(this.getClass().getName(),"Verse Size..."+verse.size());
     }
 
     private void loadSongs()

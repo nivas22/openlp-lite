@@ -1,4 +1,4 @@
-package org.openlp.lite.service;
+package org.openlp.lite.activity;
 
 /**
  * Created by Seenivasan on 10/12/2014.
@@ -7,6 +7,7 @@ package org.openlp.lite.service;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class FilePickerService extends ListActivity {
+public class FilePickerActivity extends ListActivity {
 
     public final static String EXTRA_FILE_PATH = "file_path";
     public final static String EXTRA_SHOW_HIDDEN_FILES = "show_hidden_files";
@@ -174,9 +175,12 @@ public class FilePickerService extends ListActivity {
             File object = mObjects.get(position);
 
             ImageView imageView = (ImageView)row.findViewById(R.id.file_picker_image);
+            imageView.setMaxWidth(10);
             TextView textView = (TextView)row.findViewById(R.id.file_picker_text);
             textView.setSingleLine(true);
             textView.setText(object.getName());
+            textView.setTextSize(10);
+            textView.setTypeface(Typeface.SANS_SERIF);
 
             if(object.isFile())
                 imageView.setImageResource(R.drawable.file);
