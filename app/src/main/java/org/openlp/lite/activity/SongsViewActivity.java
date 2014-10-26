@@ -9,12 +9,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import org.openlp.lite.R;
 import org.openlp.lite.page.component.fragment.VerseContentView;
+import org.openlp.lite.page.component.list.PinnedSectionListActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +28,9 @@ public class SongsViewActivity extends FragmentActivity
 {
 	private ViewPager viewPager;
     private ActionBar actionBar;
-    List<String> verseList;
+    List<String> verseName;
+    List<String> verseContent;
+    private boolean addPadding = true;
 
 	
 	@Override
@@ -34,8 +39,11 @@ public class SongsViewActivity extends FragmentActivity
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_page_listener);
         Intent intent = getIntent();
-        verseList = new ArrayList<String>();
-        verseList = intent.getStringArrayListExtra("verseData");
+        verseName = new ArrayList<String>();
+        verseContent = new ArrayList<String>();
+        verseName  = intent.getStringArrayListExtra("verseName");
+        verseContent = intent.getStringArrayListExtra("verseContent");
+        Log.d(this.getClass().getName(), "Verse name Size:" + verseName.size());
         init();
     }
 
@@ -53,14 +61,13 @@ public class SongsViewActivity extends FragmentActivity
         //  Initialise Adapter for the view pager.
         TabAdapter adapter = new TabAdapter();
         ArrayList<Bundle> verseBundle = new ArrayList<Bundle>();
-        for(int index = 0; index < verseList.size(); index++)
+        for(int index = 0; index < verseName.size(); index++)
         {
             //  Prepare Bundle object for each tab.
             Bundle bundle = new Bundle();
-            bundle.putString("verseData", verseList.get(index));
+            bundle.putString("verseData", verseContent.get(index));
             verseBundle.add(bundle);
-            //  Add tabs for the action bar.
-            ActionBar.Tab tab = actionBar.newTab().setText("V"+(index+1))
+            ActionBar.Tab tab = actionBar.newTab().setText(verseName.get(index))
                     .setTabListener(adapter);
             actionBar.addTab(tab);
         }
@@ -135,6 +142,13 @@ public class SongsViewActivity extends FragmentActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.tabbedView).setChecked(true);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -146,15 +160,19 @@ public class SongsViewActivity extends FragmentActivity
                 intent = new Intent(this, SongsListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                return true;
+                break;
             case R.id.action_settings:
                 intent = new Intent(SongsViewActivity.this, UserSettingActivity.class);
                 startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+                break;
+            case R.id.sectionView:
+                intent = new Intent(this, PinnedSectionListActivity.class);
+                intent.putStringArrayListExtra("verseName", (ArrayList<String>) verseName);
+                intent.putStringArrayListExtra("verseContent", (ArrayList<String>) verseContent);
+                startActivity(intent);
+                break;
         }
-
+        return true;
     }
 
 }

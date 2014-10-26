@@ -1,10 +1,7 @@
 package org.openlp.lite.page.component.fragment;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,36 +9,40 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
+import org.openlp.lite.CommonConstants;
 import org.openlp.lite.OpenlpApplicaton;
 import org.openlp.lite.R;
+import org.openlp.lite.service.CustomTagColorService;
+import org.openlp.lite.service.UserPreferenceSettingService;
+import org.openlp.lite.utils.PropertyUtils;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Seenivasan on 10/8/2014.
  */
 
-public class VerseContentView extends Fragment
-{
-
+public class VerseContentView extends Fragment {
+    private UserPreferenceSettingService preferenceSettingService;
+    private CustomTagColorService customTagColorService;
     Context context = OpenlpApplicaton.getContext();
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-    private Typeface typeFace;
-    private Typeface fontFaceStyle;
-    private float fontSize;
     TextView textView;
-    private Typeface fontStyle;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_content_view, container, false);
+        textView = ((TextView) rootView.findViewById(R.id.data));
+        preferenceSettingService = new UserPreferenceSettingService();
         if (getArguments() != null) {
             String text = getArguments().getString("verseData");
-            textView = ((TextView) rootView.findViewById(R.id.data));
-            textView.setText(text);
-            textView.setTypeface(getTypeFace(), getFontStyle());
-            textView.setTextSize(getFontSize());
+            customTagColorService = new CustomTagColorService();
+            customTagColorService.setCustomTagTextView(context,text,textView);
+            textView.setTypeface(preferenceSettingService.getTypeFace(), preferenceSettingService.getFontStyle());
+            textView.setTextSize(preferenceSettingService.getFontSize());
+            //textView.setTextColor(preferenceSettingService.getColor());
         }
         return rootView;
     }
@@ -49,53 +50,8 @@ public class VerseContentView extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        textView.setTypeface(getTypeFace(),getFontStyle());
-        textView.setTextSize(getFontSize());
-    }
-
-    public Typeface getTypeFace() {
-        String sharedTypeFace = sharedPrefs.getString("prefSetFontFace","NULL");
-        Log.d(this.getClass().getName(),"Font Face:"+sharedTypeFace);
-        if(sharedTypeFace.equals("DEFAULT"))
-            typeFace=Typeface.DEFAULT;
-        if(sharedTypeFace.equals("DEFAULT_BOLD"))
-            typeFace=Typeface.DEFAULT_BOLD;
-        if(sharedTypeFace.equals("MONOSPACE"))
-            typeFace=Typeface.MONOSPACE;
-        if(sharedTypeFace.equals("SANS_SERIF"))
-            typeFace=Typeface.SANS_SERIF;
-        if(sharedTypeFace.equals("SERIF"))
-            typeFace=Typeface.SERIF;
-        return typeFace;
-    }
-
-
-    public float getFontSize() {
-        String sharedFontSize = sharedPrefs.getString("prefSetFont","NULL");
-
-        if(sharedFontSize.equals("SMALL"))
-            fontSize=10;
-        if(sharedFontSize.equals("MEDIUM"))
-            fontSize=15;
-        if(sharedFontSize.equals("NORMAL"))
-            fontSize=20;
-        if(sharedFontSize.equals("HIGH"))
-            fontSize=30;
-        return fontSize;
-    }
-
-    public int getFontStyle() {
-        String sharedTypeFace = sharedPrefs.getString("prefSetFontStyle","NULL");
-        Log.d(this.getClass().getName(),"Font Face:"+sharedTypeFace);
-        int fontStyle=0;
-        if(sharedTypeFace.equals("BOLD"))
-            fontStyle=Typeface.BOLD;
-        if(sharedTypeFace.equals("BOLD_ITALIC"))
-            fontStyle=Typeface.BOLD_ITALIC;
-        if(sharedTypeFace.equals("ITALIC"))
-            fontStyle=Typeface.ITALIC;
-        if(sharedTypeFace.equals("NORMAL"))
-            fontStyle=Typeface.NORMAL;
-        return fontStyle;
+        textView.setTypeface(preferenceSettingService.getTypeFace(), preferenceSettingService.getFontStyle());
+        textView.setTextSize(preferenceSettingService.getFontSize());
+        textView.setTextColor(preferenceSettingService.getColor());
     }
 }

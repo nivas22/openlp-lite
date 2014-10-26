@@ -38,6 +38,13 @@
         <item name="4">SANS_SERIF</item>
         <item name="5">SERIF</item>
     </string-array>
+    <string-array name="customTagArray">
+        <item></item>
+    </string-array>
+
+    <string-array name="customTagValues">
+        <item></item>
+    </string-array>
 
 
 </resources>

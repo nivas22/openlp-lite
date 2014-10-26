@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="@string/pref_tag_setting" >
+       <EditTextPreference
+       android:title="@string/pref_tag_name"
+       android:summary="@string/pref_tag_name_summary"
+       android:key="prefTagName"/>
+
+        <org.openlp.lite.picker.ColorPickerPreference
+        android:key="color1"
+        android:title="@string/color_tag_title"
+        android:summary="@string/color_tag_summary"
+        android:defaultValue="@integer/COLOR_GREEN"/>
+
+        <ListPreference
+            android:title="Tag List"
+            android:summary="View the added tag list"
+            android:key="listPref"
+            android:defaultValue=""
+            android:entries="@array/customTagArray"
+            android:entryValues="@array/customTagValues"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

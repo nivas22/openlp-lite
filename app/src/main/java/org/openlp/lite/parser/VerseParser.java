@@ -69,7 +69,7 @@ public class VerseParser
                 Element element = (Element) nodes.item(i);
                 Verse verse = new Verse();
                 verse.setLabel(Integer.parseInt(element.getAttribute("label")));
-                verse.setContent(element.getAttribute("type"));
+                verse.setType(element.getAttribute("type"));
                 verse.setContent(getCharacterDataFromElement(element));
                 verses.add(verse);
             }
