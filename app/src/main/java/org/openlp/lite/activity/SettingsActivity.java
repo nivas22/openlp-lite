@@ -34,14 +34,13 @@ import java.io.File;
  */
 public class SettingsActivity extends Activity
 {
-
     private static final int REQUEST_PICK_FILE = 1;
     private File selectedFile;
     private SongDao songDao;
-    final Context context = this;
-    ListView settingsMenuList;
-    String settingsMenuValues[];
-    AlertDialog levelDialog;
+    private final Context context = this;
+    private ListView settingsMenuList;
+    private String settingsMenuValues[];
+    private AlertDialog levelDialog;
 
     @SuppressLint("NewApi")
     public void onCreate(Bundle savedInstanceState)
@@ -96,11 +95,9 @@ public class SettingsActivity extends Activity
                         break;
 
                     case 1:
-
                         //Download database file from remote url
-                        downloadDialogBox();
                         // Your code when 2nd  option seletced
-
+                        downloadDialogBuilder();
                         break;
                     case 2:
                         // Your code when 3rd option seletced
@@ -118,18 +115,18 @@ public class SettingsActivity extends Activity
         levelDialog.show();
     }
 
-    private void downloadDialogBox()
+    private void downloadDialogBuilder()
     {
         final AsyncDownloadTask asyncDownloadTask = new AsyncDownloadTask();
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(getResources().getString(R.string.remoteUrlTitle));
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(getResources().getString(R.string.remoteUrlTitle));
 
         // Set an EditText view to get user remoteUrlEditText
         final EditText remoteUrlEditText = new EditText(this);
         remoteUrlEditText.setText(R.string.remoteUrl);
-        alert.setView(remoteUrlEditText);
+        alertDialogBuilder.setView(remoteUrlEditText);
 
-        alert.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener()
+        alertDialogBuilder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int whichButton)
             {
@@ -139,7 +136,6 @@ public class SettingsActivity extends Activity
                 try {
                     downloadSongFile = File.createTempFile("downloadsongs", "sqlite", externalCacheDir);
                     if (asyncDownloadTask.execute(remoteUrl, downloadSongFile.getAbsolutePath()).get()) {
-                        //do something after downloading
                         songDao.copyDatabase(downloadSongFile.getAbsolutePath(), true);
                     } else {
                         Log.w(this.getClass().getSimpleName(), "File is not downloaded from " + remoteUrl);
@@ -152,14 +148,14 @@ public class SettingsActivity extends Activity
             }
         });
 
-        alert.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener()
+        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int whichButton)
             {
                 // Canceled.
             }
         });
-        alert.show();
+        alertDialogBuilder.show();
 
 // see http://androidsnippets.com/prompt-user-remoteUrlEditText-with-an-alertdialog
     }
