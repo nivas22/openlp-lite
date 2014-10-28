@@ -60,14 +60,12 @@ public class SettingsActivity extends Activity
 
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id)
             {
-                AlertDialogView();
-                if(position==0){
+                if (position == 0) {
                     AlertDialogView();
                 }
-                else{
-                    Intent  intent;
-                    intent = new Intent(SettingsActivity.this, ColorPickerPreference.class);
-                    startActivity(intent);
+                if (position == 1) {
+                    Intent aboutIntent = new Intent(SettingsActivity.this, AboutWebViewActivity.class);
+                    startActivity(aboutIntent);
                 }
 
             }
