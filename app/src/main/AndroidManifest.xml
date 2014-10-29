@@ -20,6 +20,7 @@
         <activity android:name=".activity.SongsListActivity"></activity>
         <activity android:name=".activity.UserSettingActivity"></activity>
         <activity android:name=".activity.SettingsActivity"></activity>
+        <activity android:name=".activity.AboutWebViewActivity"></activity>
         <activity android:name=".activity.SongsViewActivity"></activity>
         <activity android:name=".activity.FilePickerActivity"></activity>
         <activity android:name=".activity.CustomTabSettings"></activity>
