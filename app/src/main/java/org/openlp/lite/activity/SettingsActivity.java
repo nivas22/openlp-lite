@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.commons.io.FilenameUtils;
 import org.openlp.lite.R;
 import org.openlp.lite.dao.SongDao;
 import org.openlp.lite.picker.ColorPickerPreference;
@@ -130,18 +131,23 @@ public class SettingsActivity extends Activity
             {
                 String remoteUrl = remoteUrlEditText.getText().toString();
                 File externalCacheDir = context.getExternalCacheDir();
-                File downloadSongFile = null;
-                try {
-                    downloadSongFile = File.createTempFile("downloadsongs", "sqlite", externalCacheDir);
-                    if (asyncDownloadTask.execute(remoteUrl, downloadSongFile.getAbsolutePath()).get()) {
-                        songDao.copyDatabase(downloadSongFile.getAbsolutePath(), true);
-                    } else {
-                        Log.w(this.getClass().getSimpleName(), "File is not downloaded from " + remoteUrl);
+                String extension = FilenameUtils.getExtension(remoteUrl);
+                if (extension.equalsIgnoreCase("sqlite")) {
+                    File downloadSongFile = null;
+                    try {
+                        downloadSongFile = File.createTempFile("downloadsongs", "sqlite", externalCacheDir);
+                        if (asyncDownloadTask.execute(remoteUrl, downloadSongFile.getAbsolutePath()).get()) {
+                            songDao.copyDatabase(downloadSongFile.getAbsolutePath(), true);
+                        } else {
+                            Log.w(this.getClass().getSimpleName(), "File is not downloaded from " + remoteUrl);
+                        }
+                    } catch (Exception e) {
+                        Log.e(this.getClass().getSimpleName(), "Error occurred while downloading file" + e);
+                    } finally {
+                        downloadSongFile.deleteOnExit();
                     }
-                } catch (Exception e) {
-                    Log.e(this.getClass().getSimpleName(), "Error occurred while downloading file" + e);
-                } finally {
-                    downloadSongFile.deleteOnExit();
+                } else {
+                    Toast.makeText(SettingsActivity.this, "Sqlite file only supported", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -209,16 +215,21 @@ public class SettingsActivity extends Activity
                         selectedFile = new File
                                 (data.getStringExtra(FilePickerActivity.EXTRA_FILE_PATH));
 
-                        Toast.makeText(SettingsActivity.this, "File Path is" + selectedFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(SettingsActivity.this, "File Path is" + selectedFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
                         // filePath.setText(selectedFile.getPath());
-                        try {
-                            songDao.copyDatabase(selectedFile.getAbsolutePath(), true);
-                            Toast.makeText(SettingsActivity.this, "Database is loaded from the file Path: " + selectedFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(this, SongsListActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                        } catch (Exception e) {
+                        String extension = FilenameUtils.getExtension(selectedFile.getAbsolutePath());
+                        if (extension.equalsIgnoreCase("sqlite")) {
+                            try {
+                                songDao.copyDatabase(selectedFile.getAbsolutePath(), true);
+                                Toast.makeText(SettingsActivity.this, "Database is loaded from the file Path: " + selectedFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(this, SongsListActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            } catch (Exception e) {
 
+                            }
+                        } else {
+                            Toast.makeText(SettingsActivity.this, "Sqlite file only supported", Toast.LENGTH_LONG).show();
                         }
 
                         // filePath.setText(selectedFile.getPath());
