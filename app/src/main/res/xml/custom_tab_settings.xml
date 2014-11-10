@@ -11,14 +11,5 @@
         android:title="@string/color_tag_title"
         android:summary="@string/color_tag_summary"
         android:defaultValue="@integer/COLOR_GREEN"/>
-
-        <ListPreference
-            android:title="Tag List"
-            android:summary="View the added tag list"
-            android:key="listPref"
-            android:defaultValue=""
-            android:entries="@array/customTagArray"
-            android:entryValues="@array/customTagValues"
-            />
     </PreferenceCategory>
 </PreferenceScreen>

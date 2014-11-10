@@ -21,19 +21,16 @@ import org.openlp.lite.R;
 import org.openlp.lite.dao.SongDao;
 import org.openlp.lite.domain.Song;
 import org.openlp.lite.domain.Verse;
-import org.openlp.lite.page.component.list.PinnedSectionListActivity;
 import org.openlp.lite.parser.VerseParser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by Seenivasan on 10/1/2014.
  */
 
-public class SongsListActivity extends Activity
-{
+public class SongsListActivity extends Activity {
 
     ListView list_view;
     ArrayAdapter<String> myAdapter;
@@ -46,12 +43,12 @@ public class SongsListActivity extends Activity
     String[] dataArray;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.songs_list_activity);
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         list_view = (ListView) findViewById(R.id.list_view);
+
         songDao = new SongDao(this);
         parser = new VerseParser();
         try {
@@ -67,8 +64,8 @@ public class SongsListActivity extends Activity
         }
         initColor();
 
-        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+
+        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -83,13 +80,15 @@ public class SongsListActivity extends Activity
                     verseName.add(verses.getType() + verses.getLabel());
                     verseContent.add(verses.getContent());
                 }
-                Intent intent = new Intent(SongsListActivity.this, PinnedSectionListActivity.class);
+                Intent intent = new Intent(SongsListActivity.this, SongsColumnViewActivity.class);
                 intent.putStringArrayListExtra("verseName", (ArrayList<String>) verseName);
                 intent.putStringArrayListExtra("verseContent", (ArrayList<String>) verseContent);
                 startActivity(intent);
             }
         });
     }
+
+
 
     private void initColor() {
         SharedPreferences customSharedPreference = getSharedPreferences("myCustomSharedPrefs", Activity.MODE_PRIVATE);
@@ -102,7 +101,7 @@ public class SongsListActivity extends Activity
     {
         verse = new ArrayList<Verse>();
         verse = parser.parseVerseDom(this, lyrics);
-        Log.d(this.getClass().getName(),"Verse Size..."+verse.size());
+        Log.d(this.getClass().getName(), "Verse Size..." + verse.size());
     }
 
     private void loadSongs()
@@ -114,26 +113,22 @@ public class SongsListActivity extends Activity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.default_action_bar_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true);
-        SearchView.OnQueryTextListener textChangeListener = new SearchView.OnQueryTextListener()
-        {
+        SearchView.OnQueryTextListener textChangeListener = new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextChange(String newText)
-            {
+            public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
                 return true;
             }
 
             @Override
-            public boolean onQueryTextSubmit(String query)
-            {
+            public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
                 return true;
             }
@@ -143,14 +138,17 @@ public class SongsListActivity extends Activity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             Intent intent = new Intent(SongsListActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.action_about) {
+            Intent intent = new Intent(SongsListActivity.this, AboutWebViewActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

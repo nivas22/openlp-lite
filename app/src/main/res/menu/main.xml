@@ -11,7 +11,7 @@
 
     <group android:checkableBehavior="single">
         <item android:id="@+id/sectionView"
-            android:title="Columned View" android:checked="true"/>
+            android:title="Columned View"/>
         <item android:id="@+id/tabbedView"
             android:title="Tabbed View" />
     </group>

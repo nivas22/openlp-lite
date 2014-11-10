@@ -3,7 +3,9 @@ package org.openlp.lite.activity;
 /**
  * Created by Seenivasan on 10/8/2014.
  */
+import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -12,6 +14,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import org.openlp.lite.OpenlpApplicaton;
 import org.openlp.lite.R;
@@ -22,10 +26,12 @@ import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class UserSettingActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    public String previousActivity="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
+
     }
 
     public static class MyPreferenceFragment extends PreferenceFragment
@@ -67,6 +73,17 @@ public class UserSettingActivity extends PreferenceActivity implements SharedPre
                 pref.setSummary(etp.getValue());
             }
         }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        return true;
     }
 
 }

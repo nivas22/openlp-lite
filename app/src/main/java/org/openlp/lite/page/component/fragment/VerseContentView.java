@@ -42,6 +42,7 @@ public class VerseContentView extends Fragment {
             customTagColorService.setCustomTagTextView(context,text,textView);
             textView.setTypeface(preferenceSettingService.getTypeFace(), preferenceSettingService.getFontStyle());
             textView.setTextSize(preferenceSettingService.getFontSize());
+            textView.setVerticalScrollBarEnabled(true);
             //textView.setTextColor(preferenceSettingService.getColor());
         }
         return rootView;
