@@ -52,7 +52,7 @@ public class CustomTabSettings extends PreferenceActivity {
                         if (all.containsKey("prefTagName"))
                             tagName = all.get("prefTagName").toString();
                         saveIntoFile(tagName, color);
-                        Toast.makeText(CustomTabSettings.this, "Added into properties file" + customTagFile, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CustomTabSettings.this, "Tag color saved", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });

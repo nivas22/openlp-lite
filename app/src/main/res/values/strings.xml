@@ -48,7 +48,7 @@
 
 
     <!-- Done bar strings -->
-    <string name="done">Done</string>
+    <string name="save">Save</string>
     <string name="action_about">About</string>
 
 </resources>
