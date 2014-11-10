@@ -175,6 +175,10 @@ public class SongsViewActivity extends FragmentActivity
                 intent.putStringArrayListExtra("verseContent", (ArrayList<String>) verseContent);
                 startActivity(intent);
                 break;
+            case R.id.custom_tab_settings:
+                intent = new Intent(this, CustomTabSettings.class);
+                startActivity(intent);
+                break;
 
         }
         return true;
