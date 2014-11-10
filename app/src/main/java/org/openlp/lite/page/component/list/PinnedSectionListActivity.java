@@ -6,6 +6,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -43,7 +44,7 @@ public class PinnedSectionListActivity extends ListActivity implements OnClickLi
     class SimpleAdapter extends ArrayAdapter<Item> implements PinnedSectionListView.PinnedSectionListAdapter {
 
         private final int[] COLORS = new int[]{
-                R.color.blue_light};
+                R.color.liteGray};
 
         public SimpleAdapter(Context context, int resource, int textViewResourceId) {
             super(context, resource, textViewResourceId);
@@ -53,14 +54,14 @@ public class PinnedSectionListActivity extends ListActivity implements OnClickLi
         public void generateDataset() {
             final int sectionsNumber = verseName.size();
             int sectionPosition = 0, listPosition = 0;
+            Item section = new Item(Item.SECTION, "Verses");
+            section.sectionPosition = sectionPosition;
+            add(section);
             for (char i = 0; i < sectionsNumber; i++) {
-                Item section = new Item(Item.SECTION, verseName.get(i));
                 Item item = new Item(Item.ITEM, verseContent.get(i));
-                section.sectionPosition = sectionPosition;
                 section.listPosition = listPosition++;
-                add(section);
                 add(item);
-                sectionPosition++;
+                //sectionPosition++;
             }
         }
 
@@ -73,9 +74,10 @@ public class PinnedSectionListActivity extends ListActivity implements OnClickLi
             if (item.type == Item.SECTION) {
                 //view.setOnClickListener(PinnedSectionListActivity.this);
                 textView.setBackgroundColor(parent.getResources().getColor(COLORS[item.sectionPosition % COLORS.length]));
+                textView.setTypeface(Typeface.DEFAULT_BOLD);
+
             }
             if (item.type != Item.SECTION) {
-                //view.setOnClickListener(PinnedSectionListActivity.this);
                 preferenceSettingService = new UserPreferenceSettingService();
                 String text = textView.getText().toString();
                 Log.d(this.getClass().getName(),"Text View"+textView.getText());
@@ -85,7 +87,7 @@ public class PinnedSectionListActivity extends ListActivity implements OnClickLi
                 textView.setTypeface(preferenceSettingService.getTypeFace(), preferenceSettingService.getFontStyle());
                 textView.setTextSize(preferenceSettingService.getFontSize());
                 textView.setTextColor(preferenceSettingService.getColor());
-
+                textView.setVerticalScrollBarEnabled(true);
             }
             return textView;
         }

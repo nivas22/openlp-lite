@@ -1,6 +1,7 @@
 package org.openlp.lite.service;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -48,8 +49,10 @@ public class CustomTagColorService {
                     Log.d(this.getClass().getName(), "Exception" + ex);
                 }
             } else {
-                PropertyUtils.appendColoredText(textView, lines[i], preferenceSettingService.getColor());
-
+                if(preferenceSettingService.getColor()!=0)
+                    PropertyUtils.appendColoredText(textView, lines[i], preferenceSettingService.getColor());
+                else
+                    PropertyUtils.appendColoredText(textView, lines[i], Color.BLACK);
             }
         }
     }

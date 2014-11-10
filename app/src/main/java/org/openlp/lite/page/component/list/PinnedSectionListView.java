@@ -62,7 +62,7 @@ public class PinnedSectionListView extends ListView {
 
 	//-- class fields
 
-    // fields used for handling touch events
+    // fields used for handling touch e
     private final Rect mTouchRect = new Rect();
     private final PointF mTouchPoint = new PointF();
     private int mTouchSlop;

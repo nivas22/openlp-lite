@@ -83,4 +83,18 @@ public class UserPreferenceSettingService{
         }
         return color;
     }
+
+    public int getBackGroundColor() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        Map<String, ?> all = sp.getAll();
+        int color;
+        if(all.containsKey("color2")){
+            //color= Integer.parseInt(all.get("color2").toString());
+            color=-2203129;
+        }
+        else{
+            color=-2203129;
+        }
+        return color;
+    }
 }

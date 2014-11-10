@@ -72,6 +72,7 @@ public class SongsViewActivity extends FragmentActivity
             actionBar.addTab(tab);
         }
         adapter.setBundle(verseBundle);
+        viewPager.setBackgroundResource(R.drawable.rounded_corner);
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(adapter);
     }
@@ -138,13 +139,16 @@ public class SongsViewActivity extends FragmentActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+        menu.findItem(R.id.tabbedView).setVisible(false);
+        menu.findItem(R.id.sectionView).setVisible(true);
+        menu.findItem(R.id.sectionView).setCheckable(false);
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.tabbedView).setChecked(true);
+        //menu.findItem(R.id.tabbedView).setCheckable(true);
         return true;
     }
 
@@ -166,11 +170,12 @@ public class SongsViewActivity extends FragmentActivity
                 startActivity(intent);
                 break;
             case R.id.sectionView:
-                intent = new Intent(this, PinnedSectionListActivity.class);
+                intent = new Intent(this, SongsColumnViewActivity.class);
                 intent.putStringArrayListExtra("verseName", (ArrayList<String>) verseName);
                 intent.putStringArrayListExtra("verseContent", (ArrayList<String>) verseContent);
                 startActivity(intent);
                 break;
+
         }
         return true;
     }

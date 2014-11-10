@@ -19,11 +19,13 @@
         </activity>
         <activity android:name=".activity.SongsListActivity"></activity>
         <activity android:name=".activity.UserSettingActivity"></activity>
+        <activity android:name=".activity.SongsColumnViewActivity"></activity>
         <activity android:name=".activity.SettingsActivity"></activity>
         <activity android:name=".activity.AboutWebViewActivity"></activity>
         <activity android:name=".activity.SongsViewActivity"></activity>
         <activity android:name=".activity.FilePickerActivity"></activity>
         <activity android:name=".activity.CustomTabSettings"></activity>
+        <activity android:name=".service.SwipeScreenExample"></activity>
         <activity android:name=".page.component.list.PinnedSectionListActivity"></activity>
 
 

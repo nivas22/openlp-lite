@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<?xml version="1.0" encoding="utf-8"?><PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory android:title="@string/pref_text_setting" >
         <ListPreference
@@ -23,9 +22,7 @@
             android:defaultValue="DEFAULT"
             android:entryValues="@array/setFontFaceValues"
             android:title="@string/pref_change_font_face" />
-    </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_category">
         <org.openlp.lite.picker.ColorPickerPreference
             android:key="color2"
             android:title="@string/color2_title"
