@@ -6,7 +6,6 @@ package org.openlp.lite.adapter.list;
 import java.util.ArrayList;
 import java.util.TreeSet;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import org.openlp.lite.R;
 import org.openlp.lite.service.CustomTagColorService;
 import org.openlp.lite.service.UserPreferenceSettingService;
 
-public class ListViewCustomAdapter extends BaseAdapter {
+public class CustomListViewAdapter extends BaseAdapter {
 
     UserPreferenceSettingService preferenceSettingService;
     CustomTagColorService customTagColorService;
@@ -32,7 +31,7 @@ public class ListViewCustomAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
 
-    public ListViewCustomAdapter(Context context) {
+    public CustomListViewAdapter(Context context) {
         mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -81,7 +80,7 @@ public class ListViewCustomAdapter extends BaseAdapter {
             holder = new ViewHolder();
             switch (rowType) {
                 case TYPE_ITEM:
-                    convertView = mInflater.inflate(R.layout.snippet_item1, null);
+                    convertView = mInflater.inflate(R.layout.custom_list_view_adapter_item, null);
                     holder.textView = (TextView) convertView.findViewById(R.id.text);
                     loadTextStyle(holder.textView);
                     break;
